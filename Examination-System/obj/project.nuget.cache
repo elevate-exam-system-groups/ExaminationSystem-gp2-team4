@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "M5UCpdMUjRo=",
+  "success": true,
+  "projectFilePath": "/home/kakashi/Examination-System-team/ExaminationSystem-gp2-team4/Examination-System/Examination-System.csproj",
+  "expectedPackageFiles": [
+    "/home/kakashi/.nuget/packages/microsoft.aspnetcore.openapi/10.0.4/microsoft.aspnetcore.openapi.10.0.4.nupkg.sha512",
+    "/home/kakashi/.nuget/packages/microsoft.openapi/2.0.0/microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
