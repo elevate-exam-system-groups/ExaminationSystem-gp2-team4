@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ExaminationSystem.API.Common.Data;
 using Examination_System.Common.Data;
+using Examination_System.Common.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
