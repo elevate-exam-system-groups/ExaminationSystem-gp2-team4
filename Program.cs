@@ -33,11 +33,11 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();
 app.MapControllers();
-app.MapScalarApiReference();
 app.UseAuthentication();
 app.UseAuthorization();
 app.Run();

@@ -11,9 +11,10 @@ using Examination_System.Common.Exceptions;
 
 namespace Examination_System.Features.Attempts.Commands
 {
-    public record StartAttemptCommand(Guid QuizId, Guid UserId) : IRequest<StartAttemptResponse>;
+    public record StartAttemptCommandResult(bool IsConflict, StartAttemptResponse Data);
+    public record StartAttemptCommand(Guid QuizId, Guid UserId) : IRequest<StartAttemptCommandResult>;
 
-    public class StartAttemptCommandHandler : IRequestHandler<StartAttemptCommand, StartAttemptResponse>
+    public class StartAttemptCommandHandler : IRequestHandler<StartAttemptCommand, StartAttemptCommandResult>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -22,7 +23,7 @@ namespace Examination_System.Features.Attempts.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<StartAttemptResponse> Handle(StartAttemptCommand request, CancellationToken cancellationToken)
+        public async Task<StartAttemptCommandResult> Handle(StartAttemptCommand request, CancellationToken cancellationToken)
         {
             var quiz = await _unitOfWork.Repository<Quiz>().GetByIdAsync(request.QuizId);
             if (quiz == null)
@@ -34,29 +35,35 @@ namespace Examination_System.Features.Attempts.Commands
                 .FindAsync(a => a.UserId == request.UserId && a.QuizId == request.QuizId);
 
             var activeAttempt = attempts.FirstOrDefault(a => a.Status == "in_progress");
+            Attempt currentAttempt;
+            bool isConflict = false;
+
             if (activeAttempt != null)
             {
-                throw new AppException($"Active attempt already exists. AttemptId: {activeAttempt.Id}", 409);
+                currentAttempt = activeAttempt;
+                isConflict = true;
             }
-
-            if (attempts.Count() >= 3)
+            else
             {
-                throw new AppException("Maximum limit of 3 attempts reached for this quiz.", 403);
+                if (attempts.Count() >= 3)
+                {
+                    throw new AppException("Maximum limit of 3 attempts reached for this quiz.", 403);
+                }
+
+                currentAttempt = new Attempt
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = request.UserId,
+                    QuizId = request.QuizId,
+                    Status = "in_progress",
+                    StartTime = DateTime.UtcNow,
+                    TotalQuestions = quiz.QuestionsCount,
+                    Score = 0
+                };
+
+                await _unitOfWork.Repository<Attempt>().AddAsync(currentAttempt);
+                await _unitOfWork.SaveChangesAsync();
             }
-
-            var newAttempt = new Attempt
-            {
-                Id = Guid.NewGuid(),
-                UserId = request.UserId,
-                QuizId = request.QuizId,
-                Status = "in_progress",
-                StartTime = DateTime.UtcNow,
-                TotalQuestions = quiz.QuestionsCount,
-                Score = 0
-            };
-
-            await _unitOfWork.Repository<Attempt>().AddAsync(newAttempt);
-            await _unitOfWork.SaveChangesAsync();
 
             var questions = await _unitOfWork.Repository<Question>().FindAsync(q => q.QuizId == request.QuizId);
             
@@ -81,14 +88,14 @@ namespace Examination_System.Features.Attempts.Commands
                                  }).ToList()
             }).ToList();
 
-            return new StartAttemptResponse
+            return new StartAttemptCommandResult(isConflict, new StartAttemptResponse
             {
-                AttemptId = newAttempt.Id,
-                QuizId = newAttempt.QuizId,
-                Status = newAttempt.Status,
-                StartTime = newAttempt.StartTime,
+                AttemptId = currentAttempt.Id,
+                QuizId = currentAttempt.QuizId,
+                Status = currentAttempt.Status,
+                StartTime = currentAttempt.StartTime,
                 Questions = questionDtos
-            };
+            });
         }
     }
 }
