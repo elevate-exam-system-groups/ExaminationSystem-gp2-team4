@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ExaminationSystem.API.Common.Data;
 using Examination_System.Common.Data;
 using Examination_System.Common.Repositories;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+app.MapScalarApiReference();
 app.UseAuthentication();
 app.UseAuthorization();
 app.Run();
