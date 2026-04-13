@@ -29,8 +29,8 @@ namespace ExaminationSystem.API.Common.Data
 
             // Quiz -> Diploma
             modelBuilder.Entity<Quiz>()
-                .HasOne<Diploma>()
-                .WithMany()
+                .HasOne<Diploma>(q=>q.Diploma)
+                .WithMany(q=>q.Quizzes)
                 .HasForeignKey(q => q.DiplomaId)
                 .OnDelete(DeleteBehavior.Cascade);
 
