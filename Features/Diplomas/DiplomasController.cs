@@ -24,5 +24,14 @@ namespace Examination_System.Features.Diplomas
            
             return Ok(result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDiplomaById([FromQuery] string? DiplomaId)
+        {
+            var result = await _mediator.Send(new GetDiplomaByIdQuery(DiplomaId));
+
+            return Ok(result);
+
+        }
     }
 }
