@@ -3,6 +3,7 @@ using Examination_System.Common.Repositories;
 using Examination_System.Common.Wrappers;
 using Examination_System.Features.Diplomas.DTOs;
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using System.Reflection.Metadata.Ecma335;
 
 namespace Examination_System.Features.Diplomas.Queries
@@ -12,13 +13,22 @@ namespace Examination_System.Features.Diplomas.Queries
     public class GetAllDiplomasQueryHandler : IRequestHandler<GetAllDiplomasQuery, ApiResponse<GetAllDiplomasResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public GetAllDiplomasQueryHandler(IUnitOfWork unitOfWork)
+        private readonly IMemoryCache _memoryCache;
+        public GetAllDiplomasQueryHandler(IUnitOfWork unitOfWork,IMemoryCache memoryCache)
         {
             _unitOfWork = unitOfWork;
+            _memoryCache = memoryCache;
         }
 
         public async Task<ApiResponse<GetAllDiplomasResponse>> Handle(GetAllDiplomasQuery request, CancellationToken cancellationToken)
         {
+
+            var cacheKey = $"GetAllDiplomas_{request.PageNum}_{request.ItemsPerPage}_{request.SearchValue}";
+            if (_memoryCache.TryGetValue(cacheKey, out GetAllDiplomasResponse cachedResponse))
+            {
+                return ApiResponse<GetAllDiplomasResponse>.Success(cachedResponse);
+            }
+
             var DiplomaRepository = _unitOfWork.Repository<Diploma>();
             var diplomas = await DiplomaRepository.GetAllAsync();
 
@@ -49,8 +59,12 @@ namespace Examination_System.Features.Diplomas.Queries
                     TotalCount = ActiveDiplomas.Count()
 
                 };
-                return ApiResponse<GetAllDiplomasResponse>.Success(diplomaResponses);
+                var options = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(5))
+                    .SetAbsoluteExpiration(TimeSpan.FromHours(1));
+                _memoryCache.Set(cacheKey, diplomaResponses, options);
 
+                return ApiResponse<GetAllDiplomasResponse>.Success(diplomaResponses);
             }
             else
             {
@@ -68,16 +82,14 @@ namespace Examination_System.Features.Diplomas.Queries
                     PageNum = request.PageNum,
                     ItemsPerPage = request.ItemsPerPage,
                     TotalCount = ActiveDiplomas.Count()
-
                 };
+                var options = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(5))
+                    .SetAbsoluteExpiration(TimeSpan.FromHours(1));
+                _memoryCache.Set(cacheKey, diplomaResponses, options);
+
                 return ApiResponse<GetAllDiplomasResponse>.Success(diplomaResponses);
             }
-
-
-
         }
     }
-
-
-
 }
