@@ -1,0 +1,280 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Elevate\\Projects\\ES\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\common\\extensions\\dependencyinjection\\serviceregisteration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:common\\extensions\\dependencyinjection\\serviceregisteration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\features\\auth\\commands\\registeration\\registerusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:features\\auth\\commands\\registeration\\registerusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\features\\auth\\commands\\registeration\\registerusercommandvalidaitor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:features\\auth\\commands\\registeration\\registerusercommandvalidaitor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\common\\service\\auth\\iotpservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:common\\service\\auth\\iotpservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\common\\service\\auth\\otpservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:common\\service\\auth\\otpservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\common\\service\\auth\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:common\\service\\auth\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\common\\service\\auth\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:common\\service\\auth\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\common\\models\\identity\\otpcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:common\\models\\identity\\otpcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\common\\models\\identity\\emailsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:common\\models\\identity\\emailsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\features\\auth\\commands\\registeration\\registerusercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:features\\auth\\commands\\registeration\\registerusercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\examination-system.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:examination-system.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\properties\\launchsettings.json.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:properties\\launchsettings.json.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|d:\\elevate\\projects\\es\\common\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A268BC66-BF14-4EAF-87CA-5D7747810602}|Examination-System.csproj|solutionrelative:common\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ServiceRegisteration.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Common\\Extensions\\DependencyInjection\\ServiceRegisteration.cs",
+              "RelativeDocumentMoniker": "Common\\Extensions\\DependencyInjection\\ServiceRegisteration.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Common\\Extensions\\DependencyInjection\\ServiceRegisteration.cs",
+              "RelativeToolTip": "Common\\Extensions\\DependencyInjection\\ServiceRegisteration.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAAAA0AAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T13:11:00.929Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IOtpService.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Common\\Service\\Auth\\IOtpService.cs",
+              "RelativeDocumentMoniker": "Common\\Service\\Auth\\IOtpService.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Common\\Service\\Auth\\IOtpService.cs",
+              "RelativeToolTip": "Common\\Service\\Auth\\IOtpService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T13:01:53.543Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "OtpService.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Common\\Service\\Auth\\OtpService.cs",
+              "RelativeDocumentMoniker": "Common\\Service\\Auth\\OtpService.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Common\\Service\\Auth\\OtpService.cs",
+              "RelativeToolTip": "Common\\Service\\Auth\\OtpService.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAAADYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T13:01:39.365Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RegisterUserCommandValidaitor.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Features\\Auth\\Commands\\Registeration\\RegisterUserCommandValidaitor.cs",
+              "RelativeDocumentMoniker": "Features\\Auth\\Commands\\Registeration\\RegisterUserCommandValidaitor.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Features\\Auth\\Commands\\Registeration\\RegisterUserCommandValidaitor.cs",
+              "RelativeToolTip": "Features\\Auth\\Commands\\Registeration\\RegisterUserCommandValidaitor.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T13:01:27.465Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RegisterUserCommandHandler.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Features\\Auth\\Commands\\Registeration\\RegisterUserCommandHandler.cs",
+              "RelativeDocumentMoniker": "Features\\Auth\\Commands\\Registeration\\RegisterUserCommandHandler.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Features\\Auth\\Commands\\Registeration\\RegisterUserCommandHandler.cs",
+              "RelativeToolTip": "Features\\Auth\\Commands\\Registeration\\RegisterUserCommandHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T01:49:27.16Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAAACAAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T01:43:36.652Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IEmailService.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Common\\Service\\Auth\\IEmailService.cs",
+              "RelativeDocumentMoniker": "Common\\Service\\Auth\\IEmailService.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Common\\Service\\Auth\\IEmailService.cs",
+              "RelativeToolTip": "Common\\Service\\Auth\\IEmailService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T12:54:02.983Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "EmailService.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Common\\Service\\Auth\\EmailService.cs",
+              "RelativeDocumentMoniker": "Common\\Service\\Auth\\EmailService.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Common\\Service\\Auth\\EmailService.cs",
+              "RelativeToolTip": "Common\\Service\\Auth\\EmailService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T12:53:51.179Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "OtpCode.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Common\\Models\\Identity\\OtpCode.cs",
+              "RelativeDocumentMoniker": "Common\\Models\\Identity\\OtpCode.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Common\\Models\\Identity\\OtpCode.cs",
+              "RelativeToolTip": "Common\\Models\\Identity\\OtpCode.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T12:53:39.148Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "EmailSettings.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Common\\Models\\Identity\\EmailSettings.cs",
+              "RelativeDocumentMoniker": "Common\\Models\\Identity\\EmailSettings.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Common\\Models\\Identity\\EmailSettings.cs",
+              "RelativeToolTip": "Common\\Models\\Identity\\EmailSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T12:53:29.498Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-14T12:51:30.4Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "RegisterUserCommand.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Features\\Auth\\Commands\\Registeration\\RegisterUserCommand.cs",
+              "RelativeDocumentMoniker": "Features\\Auth\\Commands\\Registeration\\RegisterUserCommand.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Features\\Auth\\Commands\\Registeration\\RegisterUserCommand.cs",
+              "RelativeToolTip": "Features\\Auth\\Commands\\Registeration\\RegisterUserCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T01:49:25.783Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-14T01:41:26.414Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "launchSettings.json.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Properties\\launchSettings.json.cs",
+              "RelativeDocumentMoniker": "Properties\\launchSettings.json.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Properties\\launchSettings.json.cs",
+              "RelativeToolTip": "Properties\\launchSettings.json.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T01:40:13.515Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Examination-System",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Examination-System.csproj",
+              "RelativeDocumentMoniker": "Examination-System.csproj",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Examination-System.csproj",
+              "RelativeToolTip": "Examination-System.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-04-14T01:38:07.518Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\Elevate\\Projects\\ES\\Common\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Common\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\Elevate\\Projects\\ES\\Common\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Common\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAABwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T01:34:31.854Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

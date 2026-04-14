@@ -1,31 +1,35 @@
-using Microsoft.EntityFrameworkCore;
 using Examination_System.Common.Models;
+using Examination_System.Common.Models.Identity;
 using ExaminationSystem.API.Common.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExaminationSystem.API.Common.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<Diploma> Diplomas { get; set; }
+        public DbSet<EmailSettings> EmailSettings { get; set; }
+        public DbSet<OtpCode> OtpCodes { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Option> Options { get; set; }
         public DbSet<Attempt> Attempts { get; set; }
         public DbSet<Answer> Answers { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             // User configuration
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
+            modelBuilder.Entity<ApplicationUser>();
+   
 
             // Quiz -> Diploma
             modelBuilder.Entity<Quiz>()
@@ -50,7 +54,7 @@ namespace ExaminationSystem.API.Common.Data
 
             // Attempt -> User & Quiz
             modelBuilder.Entity<Attempt>()
-                .HasOne<User>()
+                .HasOne<ApplicationUser>()
                 .WithMany()
                 .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

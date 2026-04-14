@@ -6,7 +6,7 @@ namespace Examination_System.Common.Models
         public string Title { get; set; } = string.Empty;
         public int DurationMinutes { get; set; }
         public int PassScore { get; set; }
-        public string status { get; set; }
+        public string Status { get; set; }
         public int QuestionsCount { get; set; }
     }
 }
