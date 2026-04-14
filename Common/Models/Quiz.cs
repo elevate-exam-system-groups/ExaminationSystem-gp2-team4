@@ -8,5 +8,6 @@ namespace Examination_System.Common.Models
         public int PassScore { get; set; }
         public string status { get; set; }
         public int QuestionsCount { get; set; }
+        public Diploma Diploma { get; set; }
     }
 }
