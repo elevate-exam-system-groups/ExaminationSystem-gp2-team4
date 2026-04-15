@@ -24,15 +24,11 @@ namespace Examination_System.Features.Diplomas.Commands
         public async Task<UpdateDiplomaCommandResult> Handle(UpdateDiplomaCommand request, CancellationToken cancellationToken)
         {
             var diploma = await _unitOfWork.Repository<Diploma>().GetByIdAsync(request.DiplomaId);
-            if (diploma == null)
+            if (diploma == null || diploma.DeletedAt != null)
             {
                 return new UpdateDiplomaCommandResult(false, 404, null, "Diploma not found.");
             }
-
-            if (diploma.DeletedAt != null)
-            {
-                return new UpdateDiplomaCommandResult(false, 404, null, "Diploma not found.");
-            }
+            
 
             diploma.Title = request.Request.Title ?? diploma.Title;
             diploma.Description = request.Request.Description ?? diploma.Description;
