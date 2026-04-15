@@ -6,6 +6,7 @@ namespace Examination_System.Common.Models
         public string Description { get; set; } = string.Empty;
         public bool IsActive { get; set; }
         public string ImageUrl { get; set; }
+        public DateTime? DeletedAt { get; set; }
         public ICollection<Quiz> Quizzes { get; set; } = new List<Quiz>();
     }
 }
