@@ -1,12 +1,14 @@
+using Examination_System.Common.Exceptions;
+using Examination_System.Common.Repositories;
+using Examination_System.Common.Wrappers;
+using Examination_System.Features.Attempts.Commands;
+using Examination_System.Features.Attempts.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Examination_System.Features.Attempts.Commands;
-using Examination_System.Common.Exceptions;
-using Examination_System.Common.Repositories;
 
 namespace Examination_System.Features.Attempts
 {
@@ -62,6 +64,39 @@ namespace Examination_System.Features.Attempts
             }
 
             return Ok(result.Data);
+        }
+
+        [HttpPost("start")]
+        public async Task<IActionResult> StartAttempt([FromBody] StartAttemptCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (result.IsConflict)
+            {
+                return Conflict(result.Data);
+            }
+
+            return Ok(result.Data);
+        }
+
+        [HttpGet("timer")]
+        public async Task<IActionResult> GetTimer([FromQuery] Guid attemptId)
+        {
+            var result = await _mediator.Send(new GetAttemptTimerQuery(attemptId));
+
+            if (!result.IsSuccess)
+            {
+                return result.ErrorCode switch
+                {
+                    ErrorCode.AttemptNotFound => NotFound(result),
+                    ErrorCode.Forbidden => StatusCode(403, result),
+                    ErrorCode.AttemptClosed => Conflict(result),
+                    ErrorCode.AttemptExpired => StatusCode(410, result),
+                    _ => BadRequest(result)
+                };
+            }
+
+            return Ok(result);
         }
     }
 }

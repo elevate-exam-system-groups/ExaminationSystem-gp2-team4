@@ -9,5 +9,6 @@ namespace Examination_System.Common.Models
         public DateTime? SubmittedAt { get; set; }
         public int TotalQuestions { get; set; }
         public int Score { get; set; }
+        public Quiz Quiz { get; set; }
     }
 }
