@@ -13,7 +13,13 @@
 
          //Quiz
             QuizNotFound = 201,
-            
+
+         //attempt
+            AttemptNotFound = 301,
+            AttemptClosed = 302,
+            AttemptExpired=303,
+            Forbidden= 304,
+
 
 
     }
