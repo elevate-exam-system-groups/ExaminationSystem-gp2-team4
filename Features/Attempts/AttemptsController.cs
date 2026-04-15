@@ -3,6 +3,7 @@ using Examination_System.Common.Repositories;
 using Examination_System.Common.Wrappers;
 using Examination_System.Features.Attempts.Commands;
 using Examination_System.Features.Attempts.Queries;
+using ExaminationSystem.API.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -92,6 +93,29 @@ namespace Examination_System.Features.Attempts
                     ErrorCode.Forbidden => StatusCode(403, result),
                     ErrorCode.AttemptClosed => Conflict(result),
                     ErrorCode.AttemptExpired => StatusCode(410, result),
+                    _ => BadRequest(result)
+                };
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost("answer")]
+        public async Task<IActionResult> SaveAnswer([FromQuery] Guid attemptId, [FromQuery] Guid questionId, [FromQuery] Guid selectedOptionId)
+        {
+    
+            var result = await _mediator.Send(new SaveAnswerCommand(attemptId, questionId, selectedOptionId));
+
+            if (!result.IsSuccess)
+            {
+                return result.ErrorCode switch
+                {
+                    ErrorCode.AttemptNotFound => NotFound(result),
+                    ErrorCode.Forbidden => StatusCode(403, result),
+                    ErrorCode.AttemptClosed => Conflict(result),
+                    ErrorCode.AttemptExpired => StatusCode(410, result),
+                    ErrorCode.InvalidQuestion => UnprocessableEntity(result),
+                    ErrorCode.InvalidOption => UnprocessableEntity(result),
                     _ => BadRequest(result)
                 };
             }
