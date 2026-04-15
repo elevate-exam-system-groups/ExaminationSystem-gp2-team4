@@ -56,8 +56,8 @@ namespace ExaminationSystem.API.Common.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Attempt>()
-                .HasOne<Quiz>()
-                .WithMany()
+                .HasOne(a=>a.Quiz)
+                .WithMany(q=>q.attempts)
                 .HasForeignKey(a => a.QuizId)
                 .OnDelete(DeleteBehavior.Cascade);
 

@@ -9,5 +9,6 @@ namespace Examination_System.Common.Models
         public string status { get; set; }
         public int QuestionsCount { get; set; }
         public Diploma Diploma { get; set; }
+        public ICollection<Attempt> attempts { get; set; }
     }
 }
