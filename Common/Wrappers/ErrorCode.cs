@@ -5,22 +5,25 @@
         None=0,
 
         //Diploma
-         DiplomaNotFound=101,
-         EmptyDiplomaArray=102,
-         InvaildDiplomaId = 103,
-         DiplomaIsNotActive = 104,
-         NoParamSent = 105,
+             DiplomaNotFound=101,
+             EmptyDiplomaArray=102,
+             InvaildDiplomaId = 103,
+             DiplomaIsNotActive = 104,
+             NoParamSent = 105,
 
          //Quiz
-            QuizNotFound = 201,
+             QuizNotFound = 201,
 
          //attempt
-            AttemptNotFound = 301,
-            AttemptClosed = 302,
-            AttemptExpired=303,
-            Forbidden= 304,
+             AttemptNotFound = 301,
+             AttemptClosed = 302,
+             AttemptExpired=303,
+             Forbidden= 304,
+        //Option
+             InvalidOption=401,
 
-
+        //Question
+             InvalidQuestion= 501
 
     }
 }
