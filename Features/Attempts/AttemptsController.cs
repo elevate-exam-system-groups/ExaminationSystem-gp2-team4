@@ -72,12 +72,18 @@ namespace Examination_System.Features.Attempts
         {
             var result = await _mediator.Send(command);
 
-            if (result.IsConflict)
+            if (!result.IsSuccess)
             {
-                return Conflict(result.Data);
+                return result.ErrorCode switch
+                {
+                    ErrorCode.QuizNotFound => NotFound(result),
+                    ErrorCode.AttemptInProgress => Conflict(result),
+                    ErrorCode.AttemptLimitReached => StatusCode(403, result),
+                    _ => BadRequest(result)
+                };
             }
 
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpGet("timer")]

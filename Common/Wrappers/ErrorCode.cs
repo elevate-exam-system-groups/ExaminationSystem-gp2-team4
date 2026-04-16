@@ -17,8 +17,10 @@
          //attempt
              AttemptNotFound = 301,
              AttemptClosed = 302,
-             AttemptExpired=303,
-             Forbidden= 304,
+             AttemptExpired = 303,
+             Forbidden = 304,
+             AttemptInProgress = 305,
+             AttemptLimitReached = 306,
         //Option
              InvalidOption=401,
 

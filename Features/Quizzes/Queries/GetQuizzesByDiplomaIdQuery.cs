@@ -43,7 +43,10 @@ namespace Examination_System.Features.Quizzes.Queries
             var quizzes = await _quizRepository.GetAllAsync();
             if (!string.IsNullOrEmpty(request.SearchValue))
             {
-                quizzes = quizzes.Where(d => d.Title.Contains(request.SearchValue, StringComparison.OrdinalIgnoreCase)).ToList();
+                quizzes = quizzes
+                    .AsEnumerable()
+                    .Where(d => d.Title.Contains(request.SearchValue, StringComparison.OrdinalIgnoreCase))
+                    .AsQueryable();
                 var DiplomaQuizzes = quizzes.Where(q => q.DiplomaId == DiplomaId)
                 .Skip((request.PageNum-1) * request.ItemPerPage).Take(request.ItemPerPage).ToList();
 

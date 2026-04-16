@@ -9,6 +9,7 @@ using Examination_System.Features.Quizzes.Queries;
 using Examination_System.Features.Attempts.Commands;
 using Examination_System.Common.Exceptions;
 using Examination_System.Common.Repositories;
+using Examination_System.Common.Wrappers;
 
 namespace Examination_System.Features.Quizzes
 {
@@ -58,12 +59,18 @@ namespace Examination_System.Features.Quizzes
             var command = new StartAttemptCommand(id, userId);
             var result = await _mediator.Send(command);
 
-            if (result.IsConflict)
+            if (!result.IsSuccess)
             {
-                return Conflict(result.Data);
+                return result.ErrorCode switch
+                {
+                    ErrorCode.QuizNotFound => NotFound(result),
+                    ErrorCode.AttemptInProgress => Conflict(result),
+                    ErrorCode.AttemptLimitReached => StatusCode(403, result),
+                    _ => BadRequest(result)
+                };
             }
 
-            return Ok(result.Data);
+            return Ok(result);
         }
     }
 }
