@@ -1,36 +1,42 @@
 using Examination_System.Common.Models;
 using ExaminationSystem.API.Common.Data;
 using ExaminationSystem.API.Common.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Examination_System.Common.Data
 {
     public static class DbInitializer
     {
-        public static void Seed(AppDbContext context)
+        public static async Task Seed(UserManager<ApplicationUser>userManager,RoleManager<IdentityRole> roleManager, AppDbContext context)
         {
             // Ensures the database and tables are created before seeding (in case they weren't yet)
             context.Database.EnsureCreated();
+            
+            string[] roles = { "Admin", "Student"};
 
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+            
             if (!context.Users.Any())
             {
-                var admin = new User
+                var admin = new ApplicationUser
                 {
-                    Id = Guid.NewGuid(),
-                    FullName = "System Admin",
+                    UserName = "admin@exam.com",
                     Email = "admin@exam.com",
-                    PasswordHash = "hashedpassword_mock",
-                    Role = "Admin",
-                    CreatedAt = DateTime.UtcNow
+                    EmailConfirmed = true
                 };
 
-                var student = new User
+                var student = new ApplicationUser
                 {
-                    Id = Guid.NewGuid(),
-                    FullName = "John Doe",
+                    UserName = "student@exam.com",
                     Email = "student@exam.com",
-                    PasswordHash = "hashedpassword_mock",
-                    Role = "Student",
-                    CreatedAt = DateTime.UtcNow
+                    EmailConfirmed = true
                 };
 
                 context.Users.AddRange(admin, student);
@@ -55,7 +61,7 @@ namespace Examination_System.Common.Data
                     DiplomaId = diploma.Id,
                     Title = "C# Basics",
                     DurationMinutes = 30,
-                    status = "Active",
+                    Status = "Active",
                     PassScore = 50,
                     QuestionsCount = 2,
                     CreatedAt = DateTime.UtcNow

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Examination_System.Features.Attempts.Commands
 {
-    public record StartAttemptCommand(Guid QuizId, Guid UserId) : IRequest<ApiResponse<StartAttemptResponse>>;
+    public record StartAttemptCommand(Guid QuizId, string UserId) : IRequest<ApiResponse<StartAttemptResponse>>;
 
     public class StartAttemptCommandHandler : IRequestHandler<StartAttemptCommand, ApiResponse<StartAttemptResponse>>
     {

@@ -1,4 +1,4 @@
-﻿using Examination_System.Common.Models;
+using Examination_System.Common.Models;
 using Examination_System.Common.Repositories;
 using Examination_System.Common.Wrappers;
 using Examination_System.Features.Diplomas.DTOs;
@@ -58,7 +58,7 @@ namespace Examination_System.Features.Quizzes.Queries
                         Title = q.Title,
                         DurationMinutes = q.DurationMinutes,
                         PassScore = q.PassScore,
-                        Status = q.status
+                        Status = q.Status
                     }).ToList(),
                     TotalCount = quizzes.Count(),
                     ItemsPerPage=request.ItemPerPage,
@@ -79,7 +79,7 @@ namespace Examination_System.Features.Quizzes.Queries
                         Title = q.Title,
                         DurationMinutes = q.DurationMinutes,
                         PassScore = q.PassScore,
-                        Status = q.status
+                        Status = q.Status
                     }).ToList(),
                     TotalCount = quizzes.Count(),
                     ItemsPerPage=request.ItemPerPage,

@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace Examination_System.Common.Models
 {
+<<<<<<< HEAD
     public class User :BaseEntity
     {
         public string FullName { get; set; } = string.Empty;
@@ -12,5 +15,9 @@ namespace Examination_System.Common.Models
 
         public virtual ICollection<Attempt> Attempts { get; set; } = new List<Attempt>();
         
+=======
+    public class ApplicationUser : IdentityUser
+    {
+>>>>>>> Create-Manage-Quizzes
     }
 }

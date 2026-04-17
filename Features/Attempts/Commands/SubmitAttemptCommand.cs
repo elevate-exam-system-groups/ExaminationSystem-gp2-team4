@@ -12,7 +12,11 @@ using Examination_System.Common.Wrappers;
 
 namespace Examination_System.Features.Attempts.Commands
 {
+<<<<<<< HEAD
     public record SubmitAttemptCommand(Guid AttemptId, Guid UserId) : IRequest<ApiResponse<SubmitAttemptResponse>>;
+=======
+    public record SubmitAttemptCommand(Guid AttemptId, string UserId) : IRequest<ApiResponse<SubmitAttemptResponse>>;
+>>>>>>> Create-Manage-Quizzes
 
     public class SubmitAttemptCommandHandler : IRequestHandler<SubmitAttemptCommand, ApiResponse<SubmitAttemptResponse>>
     {
@@ -28,7 +32,11 @@ namespace Examination_System.Features.Attempts.Commands
             var attempt = await _unitOfWork.Repository<Attempt>().GetByIdAsync(request.AttemptId);
             if (attempt == null)
             {
+<<<<<<< HEAD
                 return ApiResponse<SubmitAttemptResponse>.Failure(ErrorCode.AttemptNotFound);
+=======
+                return  ApiResponse<SubmitAttemptResponse>.Failure(ErrorCode.AttemptNotFound);
+>>>>>>> Create-Manage-Quizzes
             }
 
             if (attempt.UserId != request.UserId)
@@ -49,7 +57,11 @@ namespace Examination_System.Features.Attempts.Commands
                     Score = attempt.Score,
                     Passed = attempt.Score >= quiz.PassScore
                 };
+<<<<<<< HEAD
                 return ApiResponse<SubmitAttemptResponse>.Failure(ErrorCode.AttemptClosed);
+=======
+                return  ApiResponse<SubmitAttemptResponse>.Success(existingResult);
+>>>>>>> Create-Manage-Quizzes
             }
 
             if (attempt.Status == "timed_out")
@@ -65,13 +77,17 @@ namespace Examination_System.Features.Attempts.Commands
                     Score = attempt.Score,
                     Passed = attempt.Score >= quiz.PassScore
                 };
+<<<<<<< HEAD
                 return ApiResponse<SubmitAttemptResponse>.Failure(ErrorCode.AttemptExpired);
+=======
+                return  ApiResponse<SubmitAttemptResponse>.Success(existingResult);
+>>>>>>> Create-Manage-Quizzes
             }
 
             var quizForDuration = await _unitOfWork.Repository<Quiz>().GetByIdAsync(attempt.QuizId);
             if (quizForDuration == null)
             {
-                throw new AppException("Quiz not found.", 404);
+                return ApiResponse<SubmitAttemptResponse>.Failure(ErrorCode.QuizNotFound);
             }
 
             var deadline = attempt.StartTime.AddMinutes(quizForDuration.DurationMinutes);
@@ -89,15 +105,24 @@ namespace Examination_System.Features.Attempts.Commands
             attempt.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.SaveChangesAsync();
+<<<<<<< HEAD
             
             var response = new SubmitAttemptResponse
+=======
+
+            var result = new SubmitAttemptResponse
+>>>>>>> Create-Manage-Quizzes
             {
                 AttemptId = attempt.Id,
-                Score = score,
+                Score = attempt.Score,
                 Passed = passed
             };
+<<<<<<< HEAD
             return ApiResponse<SubmitAttemptResponse>.Success(response);
 
+=======
+            return ApiResponse<SubmitAttemptResponse>.Success(result);
+>>>>>>> Create-Manage-Quizzes
         }
     }
 }

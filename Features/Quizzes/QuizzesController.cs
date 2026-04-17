@@ -37,13 +37,13 @@ namespace Examination_System.Features.Quizzes
         {
             // Extract the user identity securely directly from the JWT claims
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            Guid userId;
+            string userId;
 
-            if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out userId))
+            if (string.IsNullOrEmpty(userIdClaim))
             {
                 // Development fallback: Dynamically extract seeded test user to allow testing
-                var uow = HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
-                var mockUser = System.Linq.Enumerable.FirstOrDefault(await uow.Repository<Examination_System.Common.Models.User>().GetAllAsync());
+                var userManager = HttpContext.RequestServices.GetRequiredService<Microsoft.AspNetCore.Identity.UserManager<Examination_System.Common.Models.ApplicationUser>>();
+                var mockUser = System.Linq.Enumerable.FirstOrDefault(userManager.Users);
 
                 if (mockUser != null)
                 {
@@ -53,6 +53,10 @@ namespace Examination_System.Features.Quizzes
                 {
                     throw new AppException("Invalid or missing user identity in token.", 401);
                 }
+            }
+            else
+            {
+                userId = userIdClaim;
             }
 
             // Dispatch command via MediatR

@@ -9,7 +9,7 @@ using ExaminationSystem.API.Common.Data;
 
 namespace Examination_System.Common.Repositories
 {
-    public class BaseRepository<T> : IRepository<T> where T : BaseEntity
+    public class BaseRepository<T> : IRepository<T> where T : BaseEntity 
     {
         protected readonly AppDbContext _context;
         protected readonly DbSet<T> _dbSet;
