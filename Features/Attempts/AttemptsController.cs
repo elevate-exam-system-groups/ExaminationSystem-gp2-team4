@@ -49,19 +49,16 @@ namespace Examination_System.Features.Attempts
             var command = new SubmitAttemptCommand(id, userId);
             var result = await _mediator.Send(command);
 
-            if (result.IsNotFound)
+            if (!result.IsSuccess)
             {
-                return NotFound(new { message = result.Message });
-            }
-
-            if (result.IsForbidden)
-            {
-                return StatusCode(403, new { message = result.Message });
-            }
-
-            if (result.IsConflict)
-            {
-                return Conflict(new { message = result.Message, data = result.Data });
+                return result.ErrorCode switch
+                {
+                    ErrorCode.AttemptNotFound => NotFound(result),
+                    ErrorCode.Forbidden => StatusCode(403, result),
+                    ErrorCode.AttemptClosed => Conflict(result),
+                    ErrorCode.AttemptExpired => StatusCode(410, result),
+                    _ => BadRequest(result)
+                };
             }
 
             return Ok(result.Data);

@@ -36,46 +36,46 @@ namespace ExaminationSystem.API.Common.Data
 
             // Question -> Quiz
             modelBuilder.Entity<Question>()
-                .HasOne<Quiz>()
-                .WithMany()
+                .HasOne(q => q.Quiz)
+                .WithMany(qz =>qz.Questions)
                 .HasForeignKey(q => q.QuizId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Option -> Question
             modelBuilder.Entity<Option>()
-                .HasOne<Question>()
-                .WithMany()
+                .HasOne(q=>q.Question)
+                .WithMany(o=>o.Options)
                 .HasForeignKey(o => o.QuestionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Attempt -> User & Quiz
             modelBuilder.Entity<Attempt>()
-                .HasOne<User>()
-                .WithMany()
+                .HasOne(u=>u.User)
+                .WithMany(u=>u.Attempts)
                 .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Attempt>()
-                .HasOne(a=>a.Quiz)
-                .WithMany(q=>q.attempts)
+                .HasOne(q=>q.Quiz)
+                .WithMany(q=>q.Attempts)
                 .HasForeignKey(a => a.QuizId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Answer -> Attempt, Question, Option
             modelBuilder.Entity<Answer>()
-                .HasOne<Attempt>()
-                .WithMany()
+                .HasOne(a=>a.Attempt)
+                .WithMany(at=>at.Answers)
                 .HasForeignKey(a => a.AttemptId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Answer>()
-                .HasOne<Question>()
+                .HasOne(q=>q.Question)
                 .WithMany()
                 .HasForeignKey(a => a.QuestionId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Answer>()
-                .HasOne<Option>()
+                .HasOne(o=>o.Option)
                 .WithMany()
                 .HasForeignKey(a => a.OptionId)
                 .OnDelete(DeleteBehavior.Restrict);

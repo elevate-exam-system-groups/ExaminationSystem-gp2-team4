@@ -10,5 +10,9 @@ namespace ExaminationSystem.API.Common.Models
         public Guid OptionId { get; set; }
         public bool IsCorrect { get; set; }
         public DateTime? AnsweredAt { get; set; }
+        
+        public virtual Attempt Attempt { get; set; }
+        public virtual Question Question { get; set; }
+        public virtual Option Option { get; set; }
     }
 }

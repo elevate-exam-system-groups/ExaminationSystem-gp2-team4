@@ -9,5 +9,8 @@ namespace ExaminationSystem.API.Common.Models
         public string Body { get; set; } = string.Empty;
         public bool IsCorrect { get; set; }
         public int OrderIndex { get; set; }
+        
+        public virtual Question Question { get; set; }
+        
     }
 }

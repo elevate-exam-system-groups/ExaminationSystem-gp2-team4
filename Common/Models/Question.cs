@@ -10,5 +10,9 @@ namespace ExaminationSystem.API.Common.Models
         public string Type { get; set; } = string.Empty;
         public int OrderIndex { get; set; }
         
+        public virtual Quiz Quiz { get; set; }
+        
+        public virtual ICollection<Option> Options { get; set; } = new List<Option>();
+        
     }
 }
