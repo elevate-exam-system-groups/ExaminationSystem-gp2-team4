@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Examination_System.Common.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Examination_System.Features.Attempts
 {
@@ -28,13 +30,12 @@ namespace Examination_System.Features.Attempts
         public async Task<IActionResult> SubmitAttempt(Guid id)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            Guid userId;
+            string userId;
 
-            if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out userId))
+            if (string.IsNullOrEmpty(userIdClaim))
             {
-                var uow = HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
-                var mockUser = System.Linq.Enumerable.FirstOrDefault(
-                    await uow.Repository<Examination_System.Common.Models.User>().GetAllAsync());
+                var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
+                var mockUser = System.Linq.Enumerable.FirstOrDefault(userManager.Users);
 
                 if (mockUser != null)
                 {
@@ -45,25 +46,25 @@ namespace Examination_System.Features.Attempts
                     throw new AppException("Invalid or missing user identity in token.", 401);
                 }
             }
+            else
+            {
+                userId = userIdClaim;
+            }
 
             var command = new SubmitAttemptCommand(id, userId);
             var result = await _mediator.Send(command);
 
-            if (result.IsNotFound)
+            if (!result.IsSuccess)
             {
-                return NotFound(new { message = result.Message });
+                return result.ErrorCode switch
+                {
+                    ErrorCode.AttemptNotFound => NotFound(result),
+                    ErrorCode.Forbidden => StatusCode(403, result),
+                    ErrorCode.AttemptClosed => Conflict(result),
+                    ErrorCode.AttemptExpired => StatusCode(410, result),
+                    _ => BadRequest(result)
+                };
             }
-
-            if (result.IsForbidden)
-            {
-                return StatusCode(403, new { message = result.Message });
-            }
-
-            if (result.IsConflict)
-            {
-                return Conflict(new { message = result.Message, data = result.Data });
-            }
-
             return Ok(result.Data);
         }
 

@@ -1,7 +1,7 @@
 using System;
 using Examination_System.Common.Models;
 
-namespace ExaminationSystem.API.Common.Models
+namespace Examination_System.Common.Models
 {
     public class Question : BaseEntity
     {
@@ -9,6 +9,7 @@ namespace ExaminationSystem.API.Common.Models
         public string Body { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
         public int OrderIndex { get; set; }
-        
+        public Quiz Quiz { get; set; }
+        public ICollection<Option> Options { get; set; } = new List<Option>();
     }
 }

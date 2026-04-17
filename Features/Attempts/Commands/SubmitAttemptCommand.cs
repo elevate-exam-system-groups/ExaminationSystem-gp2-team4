@@ -8,13 +8,13 @@ using ExaminationSystem.API.Common.Models;
 using Examination_System.Common.Repositories;
 using Examination_System.Features.Attempts.DTOs;
 using Examination_System.Common.Exceptions;
+using Examination_System.Common.Wrappers;
 
 namespace Examination_System.Features.Attempts.Commands
 {
-    public record SubmitAttemptCommandResult(bool IsConflict, bool IsNotFound, bool IsForbidden, SubmitAttemptResponse? Data, string? Message);
-    public record SubmitAttemptCommand(Guid AttemptId, Guid UserId) : IRequest<SubmitAttemptCommandResult>;
+    public record SubmitAttemptCommand(Guid AttemptId, string UserId) : IRequest<ApiResponse<SubmitAttemptResponse>>;
 
-    public class SubmitAttemptCommandHandler : IRequestHandler<SubmitAttemptCommand, SubmitAttemptCommandResult>
+    public class SubmitAttemptCommandHandler : IRequestHandler<SubmitAttemptCommand, ApiResponse<SubmitAttemptResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -23,17 +23,17 @@ namespace Examination_System.Features.Attempts.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<SubmitAttemptCommandResult> Handle(SubmitAttemptCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponse<SubmitAttemptResponse>> Handle(SubmitAttemptCommand request, CancellationToken cancellationToken)
         {
             var attempt = await _unitOfWork.Repository<Attempt>().GetByIdAsync(request.AttemptId);
             if (attempt == null)
             {
-                return new SubmitAttemptCommandResult(false, true, false, null, "Attempt not found.");
+                return  ApiResponse<SubmitAttemptResponse>.Failure(ErrorCode.AttemptNotFound);
             }
 
             if (attempt.UserId != request.UserId)
             {
-                return new SubmitAttemptCommandResult(false, false, true, null, "You do not own this attempt.");
+                return ApiResponse<SubmitAttemptResponse>.Failure(ErrorCode.Forbidden);
             }
 
             if (attempt.Status == "submitted")
@@ -49,7 +49,7 @@ namespace Examination_System.Features.Attempts.Commands
                     Score = attempt.Score,
                     Passed = attempt.Score >= quiz.PassScore
                 };
-                return new SubmitAttemptCommandResult(true, false, false, existingResult, "Attempt already submitted.");
+                return  ApiResponse<SubmitAttemptResponse>.Success(existingResult);
             }
 
             if (attempt.Status == "timed_out")
@@ -65,13 +65,13 @@ namespace Examination_System.Features.Attempts.Commands
                     Score = attempt.Score,
                     Passed = attempt.Score >= quiz.PassScore
                 };
-                return new SubmitAttemptCommandResult(true, false, false, existingResult, "Attempt already timed out.");
+                return  ApiResponse<SubmitAttemptResponse>.Success(existingResult);
             }
 
             var quizForDuration = await _unitOfWork.Repository<Quiz>().GetByIdAsync(attempt.QuizId);
             if (quizForDuration == null)
             {
-                throw new AppException("Quiz not found.", 404);
+                return ApiResponse<SubmitAttemptResponse>.Failure(ErrorCode.QuizNotFound);
             }
 
             var deadline = attempt.StartTime.AddMinutes(quizForDuration.DurationMinutes);
@@ -90,12 +90,13 @@ namespace Examination_System.Features.Attempts.Commands
 
             await _unitOfWork.SaveChangesAsync();
 
-            return new SubmitAttemptCommandResult(false, false, false, new SubmitAttemptResponse
+            var result = new SubmitAttemptResponse
             {
                 AttemptId = attempt.Id,
-                Score = score,
+                Score = attempt.Score,
                 Passed = passed
-            }, null);
+            };
+            return ApiResponse<SubmitAttemptResponse>.Success(result);
         }
     }
 }
