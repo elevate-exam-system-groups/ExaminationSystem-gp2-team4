@@ -12,6 +12,10 @@
 
         public int QuestionsCount { get; set; }
         
+<<<<<<< HEAD
+=======
+        public string? Instructions { get; set; }
+>>>>>>> origin/Test
         public int MaxAttempts { get; set; }
         public string Title { get; set; } = string.Empty;
         public int DurationMinutes { get; set; }

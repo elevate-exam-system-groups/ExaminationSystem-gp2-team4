@@ -10,6 +10,10 @@ namespace Examination_System.Common.Models
         public bool IsCorrect { get; set; }
         public int OrderIndex { get; set; }
 
+<<<<<<< HEAD
         public Question? Question { get; set; }
+=======
+        public Question Question { get; set; }
+>>>>>>> origin/Test
     }
 }
