@@ -1,16 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using Examination_System.Common.Models;
-using ExaminationSystem.API.Common.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ExaminationSystem.API.Common.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<Diploma> Diplomas { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }
@@ -22,60 +22,52 @@ namespace ExaminationSystem.API.Common.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // User configuration
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
+            modelBuilder.Entity<ApplicationUser>().ToTable("Users");
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
 
-            // Quiz -> Diploma
             modelBuilder.Entity<Quiz>()
-                .HasOne<Diploma>(q=>q.Diploma)
-                .WithMany(q=>q.Quizzes)
+                .HasOne(q => q.Diploma)
+                .WithMany(d => d.Quizzes)
                 .HasForeignKey(q => q.DiplomaId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Question -> Quiz
             modelBuilder.Entity<Question>()
-                .HasOne<Quiz>()
-                .WithMany()
+                .HasOne(q => q.Quiz)
+                .WithMany(qz =>qz.Questions)
                 .HasForeignKey(q => q.QuizId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Option -> Question
             modelBuilder.Entity<Option>()
-                .HasOne<Question>()
-                .WithMany()
+                .HasOne(q=>q.Question)
+                .WithMany(o=>o.Options)
                 .HasForeignKey(o => o.QuestionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Attempt -> User & Quiz
-            modelBuilder.Entity<Attempt>()
-                .HasOne<User>()
+modelBuilder.Entity<Attempt>()
+                .HasOne(u => u.User)
                 .WithMany()
                 .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Attempt>()
-                .HasOne(a=>a.Quiz)
-                .WithMany(q=>q.attempts)
+                .HasOne(a => a.Quiz)
+                .WithMany(q => q.Attempts)
                 .HasForeignKey(a => a.QuizId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Answer -> Attempt, Question, Option
             modelBuilder.Entity<Answer>()
-                .HasOne<Attempt>()
-                .WithMany()
-                .HasForeignKey(a => a.AttemptId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Answer>()
-                .HasOne<Question>()
+                .HasOne(a => a.Question)
                 .WithMany()
                 .HasForeignKey(a => a.QuestionId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Answer>()
-                .HasOne<Option>()
+                .HasOne(a => a.Option)
                 .WithMany()
                 .HasForeignKey(a => a.OptionId)
                 .OnDelete(DeleteBehavior.Restrict);

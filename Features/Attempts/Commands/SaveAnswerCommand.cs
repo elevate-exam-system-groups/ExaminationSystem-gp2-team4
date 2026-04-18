@@ -126,7 +126,7 @@ namespace Examination_System.Features.Attempts.Commands
                     OptionId = request.SelectedOptionId
                 };
 
-                await answerRepository.AddAsync(newAnswer);
+                 answerRepository.Add(newAnswer);
             }
             else
             {

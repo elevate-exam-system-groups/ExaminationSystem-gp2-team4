@@ -8,5 +8,7 @@ namespace Examination_System.Common.Models
         public string ImageUrl { get; set; }
         public DateTime? DeletedAt { get; set; }
         public ICollection<Quiz> Quizzes { get; set; } = new List<Quiz>();
+        
+        public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
     }
 }

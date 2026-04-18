@@ -9,7 +9,7 @@ using ExaminationSystem.API.Common.Data;
 
 namespace Examination_System.Common.Repositories
 {
-    public class BaseRepository<T> : IRepository<T> where T : BaseEntity
+    public class BaseRepository<T> : IRepository<T> where T : BaseEntity 
     {
         protected readonly AppDbContext _context;
         protected readonly DbSet<T> _dbSet;
@@ -25,19 +25,19 @@ namespace Examination_System.Common.Repositories
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public Task<IQueryable<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            return Task.FromResult(_dbSet.AsQueryable());
         }
 
-        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+        public Task<IQueryable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _dbSet.Where(predicate).ToListAsync();
+            return Task.FromResult(_dbSet.Where(predicate));
         }
 
-        public async Task AddAsync(T entity)
+        public void Add(T entity)
         {
-            await _dbSet.AddAsync(entity);
+            _dbSet.Add(entity);
         }
 
         public void Update(T entity)
