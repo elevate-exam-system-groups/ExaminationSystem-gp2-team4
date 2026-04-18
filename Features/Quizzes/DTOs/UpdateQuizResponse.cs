@@ -1,7 +1,8 @@
 namespace Examination_System.Features.Quizzes.DTOs;
 
-public class UpdateQuizRequest
+public class UpdateQuizResponse
 {
+    public Guid Id { get; set; }
     public string? Title { get; set; }
     public string? Instructions { get; set; }
     public int? PassScore { get; set; }

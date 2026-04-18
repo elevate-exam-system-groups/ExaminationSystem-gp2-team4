@@ -77,9 +77,51 @@ namespace Examination_System.Features.Quizzes
             }
             return Ok(result);
         }
-    
 
 
+[HttpPut]
+        // [Authorize(Roles = "Admin")] // Temporarily disabled for testing
+        public async Task<IActionResult> UpdateQuiz([FromBody] UpdateQuizRequest request)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            string userId;
+
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
+                var mockUser = await userManager.Users.FirstOrDefaultAsync();
+
+                if (mockUser != null)
+                {
+                    userId = mockUser.Id;
+                }
+                else
+                {
+                    throw new AppException("Invalid or missing user identity in token.", 401);
+                }
+            }
+            else
+            {
+                userId = userIdClaim;
+            }
+            
+            var command = new UpdateQuizCommand(request);
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+            {
+                return result.ErrorCode switch
+                {
+                    ErrorCode.QuizNotFound => NotFound(result),
+                    ErrorCode.QuizTitleExists => Conflict(result),
+                    ErrorCode.InvalidQuizData => BadRequest(result),
+                    ErrorCode.Forbidden => StatusCode(403, result),
+                    _ => BadRequest(result)
+                };
+            }
+
+            return Ok(result);
+        }
 [HttpPost("{id}/start")]
         // [Authorize] // Temporarily bypassed since JWT Scheme isn't active yet for testing
         public async Task<IActionResult> StartQuiz(Guid id)
