@@ -10,6 +10,8 @@ namespace Examination_System.Common.Models
         public int PassScore { get; set; }
         public string Status { get; set; } = string.Empty;
         public int QuestionsCount { get; set; }
+        public int MaxAttempts { get; set; }
+        public string? Instructions { get; set; }
         public Diploma Diploma { get; set; }
 
         public ICollection<Attempt> Attempts { get; set; } = new List<Attempt>();
