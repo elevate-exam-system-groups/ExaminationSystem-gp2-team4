@@ -13,6 +13,8 @@ using Examination_System.Common.Wrappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Examination_System.Common.Models;
+using Examination_System.Features.Quizzes.Commands;
+using Examination_System.Features.Quizzes.DTOs;
 
 namespace Examination_System.Features.Quizzes
 {
@@ -28,13 +30,57 @@ namespace Examination_System.Features.Quizzes
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetQuizzesByDiplomaId(string? DiplomaId, int PageNum = 1, int ItemPerPage = 5, string? SearchValue = null)
+        public async Task<IActionResult> GetQuizzesByDiplomaId(string? DiplomaId, int PageNum = 1, int ItemPerPage = 5,
+            string? SearchValue = null)
         {
-            var result = await _mediator.Send(new GetQuizzesByDiplomaIdQuery(DiplomaId, PageNum, ItemPerPage, SearchValue));
+            var result =
+                await _mediator.Send(new GetQuizzesByDiplomaIdQuery(DiplomaId, PageNum, ItemPerPage, SearchValue));
             return Ok(result);
         }
 
-        [HttpPost("{id}/start")]
+        [HttpPost]
+        // [Authorize(Roles = "Admin")] // Temporarily disabled for testing
+        public async Task<IActionResult> CreateQuiz([FromBody] CreateQuizRequst request)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            string userId;
+
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
+                var mockUser = await userManager.Users.FirstOrDefaultAsync();
+
+                if (mockUser != null)
+                {
+                    userId = mockUser.Id;
+                }
+                else
+                {
+                    throw new AppException("Invalid or missing user identity in token.", 401);
+                }
+            }
+            else
+            {
+                userId = userIdClaim;
+            }
+            var command = new CreateQuizCommand(request);
+            var result = await _mediator.Send(command);
+            if (!result.IsSuccess)
+            {
+                return result.ErrorCode switch
+                {
+                    ErrorCode.DiplomaNotFound => NotFound(result),
+                    ErrorCode.QuizTitleExists => Conflict(result),
+                    ErrorCode.Forbidden => StatusCode(403, result),
+                    _ => BadRequest(result)
+                };
+            }
+            return Ok(result);
+        }
+    
+
+
+[HttpPost("{id}/start")]
         // [Authorize] // Temporarily bypassed since JWT Scheme isn't active yet for testing
         public async Task<IActionResult> StartQuiz(Guid id)
         {
