@@ -37,7 +37,11 @@ namespace Examination_System.Features.Diplomas.Commands
                 IsActive = false,
                 CreatedAt = DateTime.UtcNow
             };
+<<<<<<< HEAD
+            await _unitOfWork.Repository<Diploma>().AddAsync(diploma);
+=======
             _unitOfWork.Repository<Diploma>().Add(diploma);
+>>>>>>> origin/Test
             await _unitOfWork.SaveChangesAsync();
 
             var response = new DiplomaResponse
