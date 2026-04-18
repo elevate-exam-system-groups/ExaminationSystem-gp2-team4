@@ -10,6 +10,9 @@ using Examination_System.Features.Attempts.Commands;
 using Examination_System.Common.Exceptions;
 using Examination_System.Common.Repositories;
 using Examination_System.Common.Wrappers;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Examination_System.Common.Models;
 
 namespace Examination_System.Features.Quizzes
 {
@@ -41,9 +44,8 @@ namespace Examination_System.Features.Quizzes
 
             if (string.IsNullOrEmpty(userIdClaim))
             {
-                // Development fallback: Dynamically extract seeded test user to allow testing
-                var userManager = HttpContext.RequestServices.GetRequiredService<Microsoft.AspNetCore.Identity.UserManager<Examination_System.Common.Models.ApplicationUser>>();
-                var mockUser = System.Linq.Enumerable.FirstOrDefault(userManager.Users);
+                var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
+                var mockUser = await userManager.Users.FirstOrDefaultAsync();
 
                 if (mockUser != null)
                 {

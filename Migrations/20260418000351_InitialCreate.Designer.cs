@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Examination_System.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260417143012_FixEntitiesAndMigrations")]
-    partial class FixEntitiesAndMigrations
+    [Migration("20260418000351_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,8 +54,6 @@ namespace Examination_System.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AttemptId");
-
                     b.HasIndex("OptionId");
 
                     b.HasIndex("QuestionId");
@@ -75,20 +73,15 @@ namespace Examination_System.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<Guid?>("DiplomaId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -124,6 +117,8 @@ namespace Examination_System.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DiplomaId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -452,12 +447,6 @@ namespace Examination_System.Migrations
 
             modelBuilder.Entity("Examination_System.Common.Models.Answer", b =>
                 {
-                    b.HasOne("Examination_System.Common.Models.Attempt", "Attempt")
-                        .WithMany()
-                        .HasForeignKey("AttemptId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Examination_System.Common.Models.Option", "Option")
                         .WithMany()
                         .HasForeignKey("OptionId")
@@ -470,11 +459,16 @@ namespace Examination_System.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Attempt");
-
                     b.Navigation("Option");
 
                     b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("Examination_System.Common.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("Examination_System.Common.Models.Diploma", null)
+                        .WithMany("Users")
+                        .HasForeignKey("DiplomaId");
                 });
 
             modelBuilder.Entity("Examination_System.Common.Models.Attempt", b =>
@@ -583,6 +577,8 @@ namespace Examination_System.Migrations
             modelBuilder.Entity("Examination_System.Common.Models.Diploma", b =>
                 {
                     b.Navigation("Quizzes");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Examination_System.Common.Models.Question", b =>

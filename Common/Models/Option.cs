@@ -9,12 +9,7 @@ namespace Examination_System.Common.Models
         public string Body { get; set; } = string.Empty;
         public bool IsCorrect { get; set; }
         public int OrderIndex { get; set; }
-<<<<<<< HEAD
-        
-        public virtual Question Question { get; set; }
-        
-=======
+
         public Question Question { get; set; }
->>>>>>> Create-Manage-Quizzes
     }
 }

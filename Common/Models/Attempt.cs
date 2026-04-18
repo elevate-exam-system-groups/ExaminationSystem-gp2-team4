@@ -11,13 +11,7 @@ namespace Examination_System.Common.Models
         public DateTime? SubmittedAt { get; set; }
         public int TotalQuestions { get; set; }
         public int Score { get; set; }
-<<<<<<< HEAD
-        public virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();
-        public virtual User User { get; set; }
         public virtual Quiz Quiz { get; set; }
-=======
         public ApplicationUser User { get; set; }
-        public Quiz Quiz { get; set; }
->>>>>>> Create-Manage-Quizzes
     }
 }

@@ -12,6 +12,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Examination_System.Common.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Examination_System.Features.Attempts
 {
@@ -35,7 +36,7 @@ namespace Examination_System.Features.Attempts
             if (string.IsNullOrEmpty(userIdClaim))
             {
                 var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
-                var mockUser = System.Linq.Enumerable.FirstOrDefault(userManager.Users);
+                var mockUser = await userManager.Users.FirstOrDefaultAsync();
 
                 if (mockUser != null)
                 {
@@ -65,11 +66,7 @@ namespace Examination_System.Features.Attempts
                     _ => BadRequest(result)
                 };
             }
-<<<<<<< HEAD
-
-=======
->>>>>>> Create-Manage-Quizzes
-            return Ok(result.Data);
+return Ok(result.Data);
         }
 
         [HttpPost("start")]

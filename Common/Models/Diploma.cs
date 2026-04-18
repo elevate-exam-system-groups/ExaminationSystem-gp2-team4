@@ -9,6 +9,6 @@ namespace Examination_System.Common.Models
         public DateTime? DeletedAt { get; set; }
         public ICollection<Quiz> Quizzes { get; set; } = new List<Quiz>();
         
-        public ICollection<User> Users { get; set; } = new List<User>();
+        public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
     }
 }

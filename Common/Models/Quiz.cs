@@ -11,13 +11,8 @@ namespace Examination_System.Common.Models
         public string Status { get; set; } = string.Empty;
         public int QuestionsCount { get; set; }
         public Diploma Diploma { get; set; }
-<<<<<<< HEAD
-        public virtual ICollection<Attempt> Attempts { get; set; }
-        
-        public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
-=======
+
         public ICollection<Attempt> Attempts { get; set; } = new List<Attempt>();
         public ICollection<Question> Questions { get; set; } = new List<Question>();
->>>>>>> Create-Manage-Quizzes
     }
 }

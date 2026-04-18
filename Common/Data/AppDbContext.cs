@@ -38,74 +38,36 @@ namespace ExaminationSystem.API.Common.Data
 
             modelBuilder.Entity<Question>()
                 .HasOne(q => q.Quiz)
-<<<<<<< HEAD
                 .WithMany(qz =>qz.Questions)
-=======
-                .WithMany(quiz => quiz.Questions)
->>>>>>> Create-Manage-Quizzes
                 .HasForeignKey(q => q.QuizId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Option>()
-<<<<<<< HEAD
                 .HasOne(q=>q.Question)
                 .WithMany(o=>o.Options)
-=======
-                .HasOne(o => o.Question)
-                .WithMany(q => q.Options)
->>>>>>> Create-Manage-Quizzes
                 .HasForeignKey(o => o.QuestionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Attempt>()
-<<<<<<< HEAD
-                .HasOne(u=>u.User)
-                .WithMany(u=>u.Attempts)
-=======
-                .HasOne(a => a.User)
+modelBuilder.Entity<Attempt>()
+                .HasOne(u => u.User)
                 .WithMany()
->>>>>>> Create-Manage-Quizzes
                 .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Attempt>()
-<<<<<<< HEAD
-                .HasOne(q=>q.Quiz)
-                .WithMany(q=>q.Attempts)
-=======
                 .HasOne(a => a.Quiz)
                 .WithMany(q => q.Attempts)
->>>>>>> Create-Manage-Quizzes
                 .HasForeignKey(a => a.QuizId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Answer>()
-<<<<<<< HEAD
-                .HasOne(a=>a.Attempt)
-                .WithMany(at=>at.Answers)
-=======
-                .HasOne(a => a.Attempt)
-                .WithMany()
->>>>>>> Create-Manage-Quizzes
-                .HasForeignKey(a => a.AttemptId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Answer>()
-<<<<<<< HEAD
-                .HasOne(q=>q.Question)
-=======
                 .HasOne(a => a.Question)
->>>>>>> Create-Manage-Quizzes
                 .WithMany()
                 .HasForeignKey(a => a.QuestionId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Answer>()
-<<<<<<< HEAD
-                .HasOne(o=>o.Option)
-=======
                 .HasOne(a => a.Option)
->>>>>>> Create-Manage-Quizzes
                 .WithMany()
                 .HasForeignKey(a => a.OptionId)
                 .OnDelete(DeleteBehavior.Restrict);
