@@ -1,0 +1,10 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+# Local AppSettings
+appsettings.Local.json
+/.vs/Examination-System
+/Examination-System.csproj.user
+/.vs/ProjectEvaluation
