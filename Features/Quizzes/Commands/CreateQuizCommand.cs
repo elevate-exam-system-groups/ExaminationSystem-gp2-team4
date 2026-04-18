@@ -22,6 +22,15 @@ public class CreateQuizCommandHandler : IRequestHandler<CreateQuizCommand,ApiRes
             return ApiResponse<CreateQuizResult>.Failure(ErrorCode.DiplomaNotFound);
         }
 
+        var existingQuiz = await _unitOfWork.Repository<Quiz>()
+            .FindAsync(q => q.DiplomaId == request.Request.DiplomaId 
+                         && q.Title == request.Request.Title);
+        
+        if (existingQuiz.Any())
+        {
+            return ApiResponse<CreateQuizResult>.Failure(ErrorCode.QuizTitleExists);
+        }
+
         var quiz = new Quiz
         {
             DiplomaId = request.Request.DiplomaId,
@@ -29,7 +38,9 @@ public class CreateQuizCommandHandler : IRequestHandler<CreateQuizCommand,ApiRes
             DurationMinutes = request.Request.DurationMinutes,
             PassScore = request.Request.PassScore,
             MaxAttempts = request.Request.MaxAttempts,
-            Instructions = request.Request.Instructions
+            Instructions = request.Request.Instructions,
+            Status = "draft",
+            QuestionsCount = request.Request.QuestionsCount
         };
         _unitOfWork.Repository<Quiz>().Add(quiz);
         await _unitOfWork.SaveChangesAsync();

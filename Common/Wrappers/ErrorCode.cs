@@ -1,4 +1,4 @@
-﻿namespace Examination_System.Common.Wrappers
+namespace Examination_System.Common.Wrappers
 {
     public enum ErrorCode
     {
@@ -11,8 +11,10 @@
              DiplomaIsNotActive = 104,
              NoParamSent = 105,
 
-         //Quiz
-             QuizNotFound = 201,
+//Quiz
+              QuizNotFound = 201,
+              QuizTitleExists = 202,
+              InvalidQuizData = 203,
 
          //attempt
              AttemptNotFound = 301,
