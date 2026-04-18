@@ -8,5 +8,8 @@ public class CreateQuizRequst
     public Guid DiplomaId { get; set; }
     public int MaxAttempts { get; set; }
     public string? Instructions { get; set; }
+<<<<<<< HEAD
+=======
     public int QuestionsCount { get; set; }
+>>>>>>> origin/Test
 }

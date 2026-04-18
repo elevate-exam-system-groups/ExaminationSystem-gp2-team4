@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+using Examination_System.Common.Exceptions;
+using Examination_System.Common.Wrappers;
+using Examination_System.Features.Attempts.Commands;
+using Examination_System.Features.Quizzes.Queries;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+=======
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +26,7 @@ using Microsoft.EntityFrameworkCore;
 using Examination_System.Common.Models;
 using Examination_System.Features.Quizzes.Commands;
 using Examination_System.Features.Quizzes.DTOs;
+>>>>>>> origin/Test
 
 namespace Examination_System.Features.Quizzes
 {
@@ -30,6 +42,32 @@ namespace Examination_System.Features.Quizzes
         }
 
         [HttpGet]
+<<<<<<< HEAD
+        public async Task<IActionResult> GetQuizzesByDiplomaId(
+            string diplomaId,
+            int pageNum = 1,
+            int itemPerPage = 5,
+            string? searchValue = null)
+        {
+            if (string.IsNullOrWhiteSpace(diplomaId))
+                throw new AppException("DiplomaId is required.", 400);
+
+            var result = await _mediator.Send(
+                new GetQuizzesByDiplomaIdQuery(diplomaId, pageNum, itemPerPage, searchValue));
+
+            return Ok(result);
+        }
+
+        [HttpPost("{id}/start")]
+        public async Task<IActionResult> StartQuiz(Guid id)
+        {
+            var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (!Guid.TryParse(userIdStr, out var userId))
+                throw new AppException("Invalid user id.", 401);
+
+            var result = await _mediator.Send(new StartAttemptCommand(id, userId));
+=======
         public async Task<IActionResult> GetQuizzesByDiplomaId(string? DiplomaId, int PageNum = 1, int ItemPerPage = 5,
             string? SearchValue = null)
         {
@@ -152,6 +190,7 @@ namespace Examination_System.Features.Quizzes
             // Dispatch command via MediatR
             var command = new StartAttemptCommand(id, userId);
             var result = await _mediator.Send(command);
+>>>>>>> origin/Test
 
             if (!result.IsSuccess)
             {
@@ -167,4 +206,8 @@ namespace Examination_System.Features.Quizzes
             return Ok(result);
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/Test
