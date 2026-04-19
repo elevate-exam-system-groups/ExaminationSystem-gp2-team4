@@ -1,9 +1,6 @@
 namespace Examination_System.Features.Quizzes.DTOs;
 
-<<<<<<< HEAD
-public record CreateQuizResult(bool IsSuccess,int StatusCode,QuizResponse? Data
-                            ,object? Errors,string? Message);
-=======
+
 public class CreateQuizResult
 {
     public Guid Id { get; set; }
@@ -13,4 +10,3 @@ public class CreateQuizResult
     public int TotalQuestions { get; set; }
     public int PassScore { get; set; }
 }
->>>>>>> origin/Test

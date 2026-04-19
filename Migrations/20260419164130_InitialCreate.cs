@@ -90,6 +90,8 @@ namespace Examination_System.Migrations
                     PassScore = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
                     QuestionsCount = table.Column<int>(type: "integer", nullable: false),
+                    MaxAttempts = table.Column<int>(type: "integer", nullable: false),
+                    Instructions = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
@@ -194,7 +196,6 @@ namespace Examination_System.Migrations
                     SubmittedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     TotalQuestions = table.Column<int>(type: "integer", nullable: false),
                     Score = table.Column<int>(type: "integer", nullable: false),
-                    ApplicationUserId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
@@ -207,11 +208,6 @@ namespace Examination_System.Migrations
                         principalTable: "Quizzes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Attempts_Users_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Attempts_Users_UserId",
                         column: x => x.UserId,
@@ -406,11 +402,6 @@ namespace Examination_System.Migrations
                 name: "IX_Answers_QuestionId",
                 table: "Answers",
                 column: "QuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Attempts_ApplicationUserId",
-                table: "Attempts",
-                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attempts_QuizId",

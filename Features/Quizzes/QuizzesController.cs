@@ -1,32 +1,19 @@
-<<<<<<< HEAD
 using Examination_System.Common.Exceptions;
+using Examination_System.Common.Models;
 using Examination_System.Common.Wrappers;
 using Examination_System.Features.Attempts.Commands;
+using Examination_System.Features.Quizzes.Commands;
+using Examination_System.Features.Quizzes.DTOs;
 using Examination_System.Features.Quizzes.Queries;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-=======
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Examination_System.Features.Quizzes.Queries;
-using Examination_System.Features.Attempts.Commands;
-using Examination_System.Common.Exceptions;
-using Examination_System.Common.Repositories;
-using Examination_System.Common.Wrappers;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Examination_System.Common.Models;
-using Examination_System.Features.Quizzes.Commands;
-using Examination_System.Features.Quizzes.DTOs;
->>>>>>> origin/Test
 
 namespace Examination_System.Features.Quizzes
 {
@@ -42,9 +29,8 @@ namespace Examination_System.Features.Quizzes
         }
 
         [HttpGet]
-<<<<<<< HEAD
         public async Task<IActionResult> GetQuizzesByDiplomaId(
-            string diplomaId,
+            string? diplomaId,
             int pageNum = 1,
             int itemPerPage = 5,
             string? searchValue = null)
@@ -58,51 +44,26 @@ namespace Examination_System.Features.Quizzes
             return Ok(result);
         }
 
-        [HttpPost("{id}/start")]
-        public async Task<IActionResult> StartQuiz(Guid id)
-        {
-            var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (!Guid.TryParse(userIdStr, out var userId))
-                throw new AppException("Invalid user id.", 401);
-
-            var result = await _mediator.Send(new StartAttemptCommand(id, userId));
-=======
-        public async Task<IActionResult> GetQuizzesByDiplomaId(string? DiplomaId, int PageNum = 1, int ItemPerPage = 5,
-            string? SearchValue = null)
-        {
-            var result =
-                await _mediator.Send(new GetQuizzesByDiplomaIdQuery(DiplomaId, PageNum, ItemPerPage, SearchValue));
-            return Ok(result);
-        }
-
         [HttpPost]
         // [Authorize(Roles = "Admin")] // Temporarily disabled for testing
         public async Task<IActionResult> CreateQuiz([FromBody] CreateQuizRequst request)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            string userId;
 
             if (string.IsNullOrEmpty(userIdClaim))
             {
                 var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
                 var mockUser = await userManager.Users.FirstOrDefaultAsync();
 
-                if (mockUser != null)
-                {
-                    userId = mockUser.Id;
-                }
-                else
+                if (mockUser == null)
                 {
                     throw new AppException("Invalid or missing user identity in token.", 401);
                 }
             }
-            else
-            {
-                userId = userIdClaim;
-            }
+
             var command = new CreateQuizCommand(request);
             var result = await _mediator.Send(command);
+
             if (!result.IsSuccess)
             {
                 return result.ErrorCode switch
@@ -116,31 +77,21 @@ namespace Examination_System.Features.Quizzes
             return Ok(result);
         }
 
-
-[HttpPut]
+        [HttpPut]
         // [Authorize(Roles = "Admin")] // Temporarily disabled for testing
         public async Task<IActionResult> UpdateQuiz([FromBody] UpdateQuizRequest request)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            string userId;
 
             if (string.IsNullOrEmpty(userIdClaim))
             {
                 var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
                 var mockUser = await userManager.Users.FirstOrDefaultAsync();
 
-                if (mockUser != null)
-                {
-                    userId = mockUser.Id;
-                }
-                else
+                if (mockUser == null)
                 {
                     throw new AppException("Invalid or missing user identity in token.", 401);
                 }
-            }
-            else
-            {
-                userId = userIdClaim;
             }
             
             var command = new UpdateQuizCommand(request);
@@ -160,15 +111,15 @@ namespace Examination_System.Features.Quizzes
 
             return Ok(result);
         }
-[HttpPost("{id}/start")]
+
+        [HttpPost("{id}/start")]
         // [Authorize] // Temporarily bypassed since JWT Scheme isn't active yet for testing
         public async Task<IActionResult> StartQuiz(Guid id)
         {
-            // Extract the user identity securely directly from the JWT claims
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            string userId;
+            Guid userId;
 
-            if (string.IsNullOrEmpty(userIdClaim))
+            if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out userId))
             {
                 var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
                 var mockUser = await userManager.Users.FirstOrDefaultAsync();
@@ -182,15 +133,9 @@ namespace Examination_System.Features.Quizzes
                     throw new AppException("Invalid or missing user identity in token.", 401);
                 }
             }
-            else
-            {
-                userId = userIdClaim;
-            }
 
-            // Dispatch command via MediatR
             var command = new StartAttemptCommand(id, userId);
             var result = await _mediator.Send(command);
->>>>>>> origin/Test
 
             if (!result.IsSuccess)
             {
@@ -206,8 +151,4 @@ namespace Examination_System.Features.Quizzes
             return Ok(result);
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/Test

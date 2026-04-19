@@ -9,12 +9,8 @@ namespace Examination_System.Common.Models
         public string Body { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
         public int OrderIndex { get; set; }
-
-<<<<<<< HEAD
         public Quiz? Quiz { get; set; }
-=======
-        public Quiz Quiz { get; set; }
->>>>>>> origin/Test
+
         public ICollection<Option> Options { get; set; } = new List<Option>();
     }
 }

@@ -60,14 +60,9 @@ namespace Examination_System.Migrations
 
             modelBuilder.Entity("Examination_System.Common.Models.ApplicationUser", b =>
                 {
-<<<<<<< HEAD
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-=======
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
->>>>>>> origin/Test
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
@@ -76,12 +71,9 @@ namespace Examination_System.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-<<<<<<< HEAD
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-=======
->>>>>>> origin/Test
                     b.Property<Guid?>("DiplomaId")
                         .HasColumnType("uuid");
 
@@ -92,7 +84,6 @@ namespace Examination_System.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-<<<<<<< HEAD
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -100,8 +91,6 @@ namespace Examination_System.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-=======
->>>>>>> origin/Test
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
@@ -155,12 +144,6 @@ namespace Examination_System.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-<<<<<<< HEAD
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnType("uuid");
-
-=======
->>>>>>> origin/Test
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -186,22 +169,11 @@ namespace Examination_System.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-<<<<<<< HEAD
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
-=======
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
->>>>>>> origin/Test
                     b.HasIndex("QuizId");
 
                     b.HasIndex("UserId");
@@ -244,7 +216,6 @@ namespace Examination_System.Migrations
                     b.ToTable("Diplomas");
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Examination_System.Common.Models.Identity.EmailSettings", b =>
                 {
                     b.Property<int>("Id")
@@ -348,8 +319,6 @@ namespace Examination_System.Migrations
                     b.ToTable("Students");
                 });
 
-=======
->>>>>>> origin/Test
             modelBuilder.Entity("Examination_System.Common.Models.Option", b =>
                 {
                     b.Property<Guid>("Id")
@@ -430,6 +399,12 @@ namespace Examination_System.Migrations
                     b.Property<int>("DurationMinutes")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Instructions")
+                        .HasColumnType("text");
+
+                    b.Property<int>("MaxAttempts")
+                        .HasColumnType("integer");
+
                     b.Property<int>("PassScore")
                         .HasColumnType("integer");
 
@@ -454,18 +429,11 @@ namespace Examination_System.Migrations
                     b.ToTable("Quizzes");
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-=======
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
->>>>>>> origin/Test
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -488,11 +456,7 @@ namespace Examination_System.Migrations
                     b.ToTable("Roles", (string)null);
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
-=======
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
->>>>>>> origin/Test
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -506,14 +470,8 @@ namespace Examination_System.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("text");
 
-<<<<<<< HEAD
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");
-=======
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("text");
->>>>>>> origin/Test
 
                     b.HasKey("Id");
 
@@ -522,11 +480,7 @@ namespace Examination_System.Migrations
                     b.ToTable("RoleClaims", (string)null);
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
-=======
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
->>>>>>> origin/Test
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -540,14 +494,8 @@ namespace Examination_System.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("text");
 
-<<<<<<< HEAD
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
-=======
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
->>>>>>> origin/Test
 
                     b.HasKey("Id");
 
@@ -556,11 +504,7 @@ namespace Examination_System.Migrations
                     b.ToTable("UserClaims", (string)null);
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
-=======
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
->>>>>>> origin/Test
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("text");
@@ -571,14 +515,8 @@ namespace Examination_System.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
 
-<<<<<<< HEAD
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
-=======
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
->>>>>>> origin/Test
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -587,7 +525,6 @@ namespace Examination_System.Migrations
                     b.ToTable("UserLogins", (string)null);
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -595,15 +532,6 @@ namespace Examination_System.Migrations
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");
-=======
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("text");
->>>>>>> origin/Test
 
                     b.HasKey("UserId", "RoleId");
 
@@ -612,17 +540,10 @@ namespace Examination_System.Migrations
                     b.ToTable("UserRoles", (string)null);
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
-=======
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
->>>>>>> origin/Test
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("text");
@@ -666,13 +587,6 @@ namespace Examination_System.Migrations
 
             modelBuilder.Entity("Examination_System.Common.Models.Attempt", b =>
                 {
-<<<<<<< HEAD
-                    b.HasOne("Examination_System.Common.Models.ApplicationUser", null)
-                        .WithMany("Attempts")
-                        .HasForeignKey("ApplicationUserId");
-
-=======
->>>>>>> origin/Test
                     b.HasOne("Examination_System.Common.Models.Quiz", "Quiz")
                         .WithMany("Attempts")
                         .HasForeignKey("QuizId")
@@ -680,7 +594,7 @@ namespace Examination_System.Migrations
                         .IsRequired();
 
                     b.HasOne("Examination_System.Common.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Attempts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -690,7 +604,6 @@ namespace Examination_System.Migrations
                     b.Navigation("User");
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Examination_System.Common.Models.Identity.PasswordResetToken", b =>
                 {
                     b.HasOne("Examination_System.Common.Models.ApplicationUser", "User")
@@ -713,8 +626,6 @@ namespace Examination_System.Migrations
                     b.Navigation("User");
                 });
 
-=======
->>>>>>> origin/Test
             modelBuilder.Entity("Examination_System.Common.Models.Option", b =>
                 {
                     b.HasOne("Examination_System.Common.Models.Question", "Question")
@@ -748,26 +659,16 @@ namespace Examination_System.Migrations
                     b.Navigation("Diploma");
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
-=======
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
->>>>>>> origin/Test
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
-=======
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
->>>>>>> origin/Test
                 {
                     b.HasOne("Examination_System.Common.Models.ApplicationUser", null)
                         .WithMany()
@@ -776,11 +677,7 @@ namespace Examination_System.Migrations
                         .IsRequired();
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
-=======
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
->>>>>>> origin/Test
                 {
                     b.HasOne("Examination_System.Common.Models.ApplicationUser", null)
                         .WithMany()
@@ -789,15 +686,9 @@ namespace Examination_System.Migrations
                         .IsRequired();
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
-=======
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
->>>>>>> origin/Test
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -810,11 +701,7 @@ namespace Examination_System.Migrations
                         .IsRequired();
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
-=======
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
->>>>>>> origin/Test
                 {
                     b.HasOne("Examination_System.Common.Models.ApplicationUser", null)
                         .WithMany()
@@ -823,7 +710,6 @@ namespace Examination_System.Migrations
                         .IsRequired();
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("Examination_System.Common.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Attempts");
@@ -833,8 +719,6 @@ namespace Examination_System.Migrations
                     b.Navigation("Student");
                 });
 
-=======
->>>>>>> origin/Test
             modelBuilder.Entity("Examination_System.Common.Models.Diploma", b =>
                 {
                     b.Navigation("Quizzes");
