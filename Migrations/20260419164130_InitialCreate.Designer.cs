@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Examination_System.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260418153853_InitialCreate")]
+    [Migration("20260419164130_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -147,9 +147,6 @@ namespace Examination_System.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -179,8 +176,6 @@ namespace Examination_System.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("QuizId");
 
@@ -407,6 +402,12 @@ namespace Examination_System.Migrations
                     b.Property<int>("DurationMinutes")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Instructions")
+                        .HasColumnType("text");
+
+                    b.Property<int>("MaxAttempts")
+                        .HasColumnType("integer");
+
                     b.Property<int>("PassScore")
                         .HasColumnType("integer");
 
@@ -589,10 +590,6 @@ namespace Examination_System.Migrations
 
             modelBuilder.Entity("Examination_System.Common.Models.Attempt", b =>
                 {
-                    b.HasOne("Examination_System.Common.Models.ApplicationUser", null)
-                        .WithMany("Attempts")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("Examination_System.Common.Models.Quiz", "Quiz")
                         .WithMany("Attempts")
                         .HasForeignKey("QuizId")
@@ -600,7 +597,7 @@ namespace Examination_System.Migrations
                         .IsRequired();
 
                     b.HasOne("Examination_System.Common.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Attempts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

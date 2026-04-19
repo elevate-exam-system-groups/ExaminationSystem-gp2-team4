@@ -36,9 +36,9 @@ namespace Examination_System.Repositories
             return await _dbSet.Where(predicate).ToListAsync();
         }
 
-        public async Task AddAsync(T entity)
+        public void Add(T entity)
         {
-            await _dbSet.AddAsync(entity);
+             _dbSet.Add(entity);
         }
 
         public void Update(T entity)

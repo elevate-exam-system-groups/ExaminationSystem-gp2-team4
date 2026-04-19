@@ -12,11 +12,7 @@ using Examination_System.Common.Wrappers;
 
 namespace Examination_System.Features.Attempts.Commands
 {
-<<<<<<< HEAD
 public record SubmitAttemptCommand(Guid AttemptId, Guid UserId) : IRequest<ApiResponse<SubmitAttemptResponse>>;
-=======
-public record SubmitAttemptCommand(Guid AttemptId, string UserId) : IRequest<ApiResponse<SubmitAttemptResponse>>;
->>>>>>> origin/Test
 
     public class SubmitAttemptCommandHandler : IRequestHandler<SubmitAttemptCommand, ApiResponse<SubmitAttemptResponse>>
     {
@@ -40,11 +36,8 @@ if (attempt == null)
                 return ApiResponse<SubmitAttemptResponse>.Failure(ErrorCode.Forbidden);
             }
 
-<<<<<<< HEAD
             if (attempt.Status == "submitted")
-=======
-if (attempt.Status == "submitted")
->>>>>>> origin/Test
+
             {
                 var quiz = await _unitOfWork.Repository<Quiz>().GetByIdAsync(attempt.QuizId);
                 if (quiz == null)
