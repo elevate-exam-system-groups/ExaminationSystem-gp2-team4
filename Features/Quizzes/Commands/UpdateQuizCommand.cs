@@ -24,8 +24,8 @@ public class UpdateQuizCommandHandler : IRequestHandler<UpdateQuizCommand, ApiRe
         // Apply updates if provided in request
         if (!string.IsNullOrWhiteSpace(request.Request.Title) && request.Request.Title != quiz.Title)
         {
-            var existingQuiz = await _unitOfWork.Repository<Quiz>()
-                .FindAsync(q => q.DiplomaId == quiz.DiplomaId 
+            var existingQuiz = _unitOfWork.Repository<Quiz>()
+                .Find(q => q.DiplomaId == quiz.DiplomaId 
                              && q.Title == request.Request.Title 
                              && q.Id != quiz.Id);
             

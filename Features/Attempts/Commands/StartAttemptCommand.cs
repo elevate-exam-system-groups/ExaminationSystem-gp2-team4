@@ -34,8 +34,8 @@ namespace Examination_System.Features.Attempts.Commands
             if (quiz == null)
                 return ApiResponse<StartAttemptResponse>.Failure(ErrorCode.QuizNotFound);
 
-            var attempts = (await _unitOfWork.Repository<Attempt>()
-                .FindAsync(a => a.UserId == request.UserId && a.QuizId == request.QuizId))
+            var attempts = ( _unitOfWork.Repository<Attempt>()
+                .Find(a => a.UserId == request.UserId && a.QuizId == request.QuizId))
                 .ToList();
 
             var activeAttempt = attempts.FirstOrDefault(a => a.Status == "in_progress");
@@ -69,14 +69,14 @@ namespace Examination_System.Features.Attempts.Commands
                 await _unitOfWork.SaveChangesAsync();
             }
 
-            var questions = (await _unitOfWork.Repository<Question>()
-                .FindAsync(q => q.QuizId == request.QuizId))
+            var questions = (_unitOfWork.Repository<Question>()
+                .Find(q => q.QuizId == request.QuizId))
                 .ToList();
 
             var questionIds = questions.Select(q => q.Id).ToList();
 
-            var options = (await _unitOfWork.Repository<Option>()
-                .FindAsync(o => questionIds.Contains(o.QuestionId)))
+            var options = ( _unitOfWork.Repository<Option>()
+                .Find(o => questionIds.Contains(o.QuestionId)))
                 .ToList();
 
             var shuffledQuestions = questions

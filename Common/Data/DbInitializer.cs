@@ -13,8 +13,10 @@ namespace Examination_System.Common.Data
             RoleManager<IdentityRole<Guid>> roleManager,
             AppDbContext context)
         {
-            await context.Database.MigrateAsync();
-
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                await context.Database.MigrateAsync();
+            }
             string[] roles = { "Admin", "Student" };
 
             foreach (var role in roles)

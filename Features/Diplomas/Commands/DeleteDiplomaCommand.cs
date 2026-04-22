@@ -30,10 +30,10 @@ namespace Examination_System.Features.Diplomas.Commands
                 return new DeleteDiplomaCommandResult(false, 404, "Diploma not found.");
             }
 
-            var quizzes = await _unitOfWork.Repository<Quiz>().FindAsync(q => q.DiplomaId == request.DiplomaId);
+            var quizzes = _unitOfWork.Repository<Quiz>().Find(q => q.DiplomaId == request.DiplomaId);
             var quizIds = quizzes.Select(q => q.Id).ToList();
 
-            var hasEnrollments = await _unitOfWork.Repository<Attempt>().FindAsync(a => quizIds.Contains(a.QuizId));
+            var hasEnrollments = _unitOfWork.Repository<Attempt>().Find(a => quizIds.Contains(a.QuizId));
 
             if (hasEnrollments.Any())
             {

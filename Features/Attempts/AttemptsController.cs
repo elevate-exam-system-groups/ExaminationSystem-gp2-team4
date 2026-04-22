@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Examination_System.Features.Attempts
 {
@@ -100,11 +101,13 @@ namespace Examination_System.Features.Attempts
                     _ => BadRequest(result)
                 };
             }
+
             return Ok(result.Data);
         }
 
         [HttpPost("answer")]
-        public async Task<IActionResult> SaveAnswer([FromQuery] Guid attemptId, [FromQuery] Guid questionId, [FromQuery] Guid selectedOptionId)
+        public async Task<IActionResult> SaveAnswer([FromQuery] Guid attemptId, [FromQuery] Guid questionId,
+            [FromQuery] Guid selectedOptionId)
         {
             var result = await _mediator.Send(new SaveAnswerCommand(attemptId, questionId, selectedOptionId));
 
@@ -124,5 +127,22 @@ namespace Examination_System.Features.Attempts
 
             return Ok(result.Data);
         }
+
+        [HttpGet("avg-pass-rate")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ApiResponse<double>>> GetAvgPassRate(
+            CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(new GetAvgPassRateQuery(), cancellationToken);
+            return Ok(result);
+        }
+        
+         [HttpGet("Total-Attempts")]
+         [Authorize(Roles = "Admin")]
+            public async Task<ActionResult<ApiResponse<int>>> GetTotalAttempts()
+            {
+                var result = await _mediator.Send(new GetTotalAttemptsQuery());
+                return Ok(result);
+            }
     }
 }

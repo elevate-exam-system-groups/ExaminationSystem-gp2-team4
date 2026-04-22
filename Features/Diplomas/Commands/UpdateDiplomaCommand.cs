@@ -37,7 +37,7 @@ namespace Examination_System.Features.Diplomas.Commands
 
             await _unitOfWork.SaveChangesAsync();
 
-            var quizzes = await _unitOfWork.Repository<Quiz>().FindAsync(q => q.DiplomaId == diploma.Id);
+            var quizzes =  _unitOfWork.Repository<Quiz>().Find(q => q.DiplomaId == diploma.Id);
 
             var response = new DiplomaResponse
             {

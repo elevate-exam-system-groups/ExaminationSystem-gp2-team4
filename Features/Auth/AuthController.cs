@@ -1,11 +1,14 @@
 using Examination_System.Common.Wrappers;
+using Examination_System.Features.Admin.Queries.GetActiveUsersToday;
 using Examination_System.Features.Auth.Commands.ForgetPassword;
 using Examination_System.Features.Auth.Commands.Login;
 using Examination_System.Features.Auth.Commands.Registeration;
 using Examination_System.Features.Auth.Commands.ResendOtp;
 using Examination_System.Features.Auth.Commands.ResetPassword;
-using Examination_System.Features.Auth.Commands.VerifyAccount;
+using Examination_System.Features.Auth.Commands.VerifyAccount; 
+using Examination_System.Features.Auth.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -46,10 +49,11 @@ public class AuthController : ControllerBase
         var result = await _mediator.Send(command, ct);
         return result.ToActionResult();
     }
+
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword(
-     [FromBody] ForgotPasswordCommand command,
-     CancellationToken ct)
+        [FromBody] ForgotPasswordCommand command,
+        CancellationToken ct)
     {
         var result = await _mediator.Send(command, ct);
         return result.ToActionResult();
@@ -65,12 +69,31 @@ public class AuthController : ControllerBase
             Email = email
         });
     }
+
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword(
-       [FromBody] ResetPasswordCommand command,
-       CancellationToken ct)
+        [FromBody] ResetPasswordCommand command,
+        CancellationToken ct)
     {
         var result = await _mediator.Send(command, ct);
         return result.ToActionResult();
+    }
+
+
+    [HttpGet("Status/Total_Users")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetAllUsers(CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new GetUsersCountQuery(), cancellationToken);
+
+        return Ok(result);
+    }
+
+    [HttpGet("stats/active-users-today")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetActiveUsersToday(CancellationToken ct)
+    {
+        var result = await _mediator.Send(new GetActiveUsersTodayQuery(), ct);
+        return Ok(result);
     }
 }

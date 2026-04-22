@@ -40,7 +40,7 @@ namespace Examination_System.Features.Quizzes.Queries
 
             var _quizRepository = _unitOfWork.Repository<Quiz>();
 
-            var quizzes = await _quizRepository.GetAllAsync();
+            var quizzes =  _quizRepository.GetAll();
             if (!string.IsNullOrEmpty(request.SearchValue))
             {
                 quizzes = quizzes
