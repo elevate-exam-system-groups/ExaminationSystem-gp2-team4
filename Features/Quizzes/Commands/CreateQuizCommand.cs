@@ -22,8 +22,8 @@ public class CreateQuizCommandHandler : IRequestHandler<CreateQuizCommand,ApiRes
             return ApiResponse<CreateQuizResult>.Failure(ErrorCode.DiplomaNotFound);
         }
 
-        var existingQuiz = await _unitOfWork.Repository<Quiz>()
-            .FindAsync(q => q.DiplomaId == request.Request.DiplomaId 
+        var existingQuiz = _unitOfWork.Repository<Quiz>()
+            .Find(q => q.DiplomaId == request.Request.DiplomaId 
                          && q.Title == request.Request.Title);
         
         if (existingQuiz.Any())

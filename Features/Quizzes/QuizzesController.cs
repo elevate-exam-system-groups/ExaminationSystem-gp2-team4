@@ -150,5 +150,14 @@ namespace Examination_System.Features.Quizzes
 
             return Ok(result);
         }
+        
+        [HttpGet("Total-Quizzes")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetTotalQuizzes()
+        {
+            var result = await _mediator.Send(new GetTotalQuizzesQuery());
+
+            return Ok(result);
+        }
     }
 }

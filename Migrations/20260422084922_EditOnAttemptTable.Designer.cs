@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Examination_System.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260419164130_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260422084922_EditOnAttemptTable")]
+    partial class EditOnAttemptTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,12 @@ namespace Examination_System.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
+                    b.Property<DateTime?>("LastActivityAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("LastLoginAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
@@ -149,6 +155,9 @@ namespace Examination_System.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsPassed")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("QuizId")
                         .HasColumnType("uuid");

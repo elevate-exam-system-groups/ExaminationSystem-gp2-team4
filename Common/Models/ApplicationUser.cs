@@ -10,6 +10,8 @@ namespace Examination_System.Common.Models
         public bool IsActive { get; set; } = true;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? LastLoginAt { get; set; }
+        public DateTime? LastActivityAt { get; set; }
 
         public Student? Student { get; set; }
 

@@ -30,7 +30,7 @@ namespace Examination_System.Features.Diplomas.Queries
             }
 
             var DiplomaRepository = _unitOfWork.Repository<Diploma>();
-            var diplomas = await DiplomaRepository.GetAllAsync();
+            var diplomas =  DiplomaRepository.GetAll();
 
             if (diplomas is null || !diplomas.Any())
                 return ApiResponse<GetAllDiplomasResponse>.Failure(ErrorCode.EmptyDiplomaArray);

@@ -48,7 +48,7 @@ if (attempt == null)
                 {
                     AttemptId = attempt.Id,
                     Score = attempt.Score,
-                    Passed = attempt.Score >= quiz.PassScore
+                    Passed = attempt.IsPassed
                 };
                 return ApiResponse<SubmitAttemptResponse>.Success(existingResult);
             }
@@ -78,13 +78,14 @@ if (attempt == null)
             var deadline = attempt.StartTime.AddMinutes(quizForDuration.DurationMinutes);
             bool isTimedOut = DateTime.UtcNow > deadline;
 
-            var answers = await _unitOfWork.Repository<Answer>().FindAsync(a => a.AttemptId == attempt.Id);
+            var answers = _unitOfWork.Repository<Answer>().Find(a => a.AttemptId == attempt.Id);
             int correctAnswers = answers.Count(a => a.IsCorrect);
             int totalQuestions = attempt.TotalQuestions;
             int score = totalQuestions > 0 ? (correctAnswers * 100) / totalQuestions : 0;
             bool passed = score >= quizForDuration.PassScore;
 
             attempt.Score = score;
+            attempt.IsPassed = passed; 
             attempt.SubmittedAt = DateTime.UtcNow;
             attempt.Status = isTimedOut ? "timed_out" : "submitted";
             attempt.UpdatedAt = DateTime.UtcNow;
@@ -95,7 +96,7 @@ await _unitOfWork.SaveChangesAsync();
             {
                 AttemptId = attempt.Id,
                 Score = attempt.Score,
-                Passed = passed
+                Passed = attempt.IsPassed
             };
             return ApiResponse<SubmitAttemptResponse>.Success(result);
         }
