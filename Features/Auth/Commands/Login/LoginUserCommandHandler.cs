@@ -90,6 +90,9 @@ namespace Examination_System.Features.Auth.Commands.Login
             // 10. Generate tokens
             var accessToken = jwtService.GenerateToken(user, roles);
             var refreshToken = jwtService.GenerateRefreshToken(user);
+            
+            user.LastLoginAt = DateTime.UtcNow;
+            await userManager.UpdateAsync(user);
 
             // 11. Response
             return ApiResponse<LoginResponse>.Success(

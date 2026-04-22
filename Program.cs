@@ -1,7 +1,6 @@
 using Examination_System.Common.Data;
 using Examination_System.Common.Extensions.DependencyInjection;
 using Examination_System.Common.Models;
-using Examination_System.Common.Models.Identity;
 using ExaminationSystem.API.Common.Data;
 using Microsoft.AspNetCore.Identity;
 using Scalar.AspNetCore;

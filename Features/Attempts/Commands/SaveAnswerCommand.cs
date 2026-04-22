@@ -50,7 +50,7 @@ namespace Examination_System.Features.Attempts.Commands
 
             if (utcNow >= deadline)
             {
-                var allAnswers = await answerRepository.GetAllAsync();
+                var allAnswers = answerRepository.GetAll();
 
                 var attemptAnswersData = allAnswers
                     .Where(x => x.AttemptId == attempt.Id)
@@ -70,7 +70,7 @@ namespace Examination_System.Features.Attempts.Commands
                         .Distinct()
                         .ToList();
 
-                    var allOptions = await optionRepository.GetAllAsync();
+                    var allOptions = optionRepository.GetAll();
 
                     var correctOptionIds = allOptions
                         .Where(x => selectedOptionIds.Contains(x.Id) && x.IsCorrect)
@@ -109,7 +109,7 @@ namespace Examination_System.Features.Attempts.Commands
             if (option.QuestionId != request.QuestionId)
                 return ApiResponse<SaveAnswerResponse>.Failure(ErrorCode.InvalidOption);
 
-            var allExistingAnswers = await answerRepository.GetAllAsync();
+            var allExistingAnswers =  answerRepository.GetAll();
 
             var existingAnswer = allExistingAnswers
                 .FirstOrDefault(x =>

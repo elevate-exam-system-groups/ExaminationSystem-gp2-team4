@@ -1,5 +1,4 @@
 ﻿using Examination_System.Common.Models;
-using Examination_System.Common.Models.Identity;
 using Examination_System.Common.Service.Auth;
 using Examination_System.Common.Wrappers;
 using MediatR;

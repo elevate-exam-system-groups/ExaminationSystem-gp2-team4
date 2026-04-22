@@ -9,6 +9,9 @@ using Examination_System.Repositories;
 using ExaminationSystem.API.Common.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -73,6 +76,31 @@ namespace Examination_System.Common.Extensions.DependencyInjection
             // ================= MediatR =================
             services.AddMediatR(cfg =>
                 cfg.RegisterServicesFromAssembly(typeof(RegisterUserCommandHandler).Assembly));
+            
+            // 
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+                        ValidIssuer = configuration["JwtSettings:Issuer"],
+                        ValidAudience = configuration["JwtSettings:Audience"],
+
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"])),
+
+                        RoleClaimType = System.Security.Claims.ClaimTypes.Role
+                    };
+                });
 
             return services;
         }

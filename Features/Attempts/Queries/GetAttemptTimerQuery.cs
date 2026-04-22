@@ -49,7 +49,7 @@ namespace Examination_System.Features.Attempts.Queries
             if (utcNow >= deadline)
             {
                 var answerRepository = _unitOfWork.Repository<Answer>();
-                var allAnswers = await answerRepository.GetAllAsync();
+                var allAnswers =  answerRepository.GetAll();
 
                 var attemptAnswersData = allAnswers
                     .Where(x => x.AttemptId == attempt.Id)
@@ -70,7 +70,7 @@ namespace Examination_System.Features.Attempts.Queries
                         .ToList();
 
                     var optionRepository = _unitOfWork.Repository<Option>();
-                    var allOptions = await optionRepository.GetAllAsync();
+                    var allOptions =  optionRepository.GetAll();
 
                     var correctOptionIds = allOptions
                         .Where(x => selectedOptionIds.Contains(x.Id) && x.IsCorrect)
