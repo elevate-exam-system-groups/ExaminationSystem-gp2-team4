@@ -12,6 +12,8 @@ namespace Examination_System.Common.Models
         public int TotalQuestions { get; set; }
         public int Score { get; set; }
         public bool IsPassed { get; set; } 
+        
+        public ICollection<Answer> Answers { get; set; } = new List<Answer>();
         public virtual Quiz? Quiz { get; set; }
         public ApplicationUser? User { get; set; }
     }

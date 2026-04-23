@@ -16,6 +16,9 @@ namespace Examination_System.Common.Wrappers
         QuizNotFound = 201,
         QuizTitleExists = 202,
         InvalidQuizData = 203,
+        QuizAlreadyPublished = 204,
+        QuizHasNoQuestions = 205,
+        QuizHasActiveAttempts = 206,
 
         //attempt
         AttemptNotFound = 301,
