@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Examination_System.Features.Attempts.Queries.GetAttemptResults;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Examination_System.Features.Attempts
@@ -128,6 +129,26 @@ namespace Examination_System.Features.Attempts
             return Ok(result.Data);
         }
 
+        [HttpGet("{Id:guid}/results")]
+        [Authorize]
+        public async Task<IActionResult> GetAttemptResults(Guid attemptId, CancellationToken ct)
+        {
+            var result = await _mediator.Send(new GetAttemptResultsQuery(attemptId), ct);
+
+            if (!result.IsSuccess)
+            {
+                return result.ErrorCode switch
+                {
+                    ErrorCode.NotFound => NotFound(result),
+                    ErrorCode.Forbidden => StatusCode(403, result),
+                    ErrorCode.Unauthorized => Unauthorized(result),
+                    _ => BadRequest(result)
+                };
+            }
+
+            return Ok(result.Data);
+        }
+
         [HttpGet("avg-pass-rate")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ApiResponse<double>>> GetAvgPassRate(
@@ -136,13 +157,13 @@ namespace Examination_System.Features.Attempts
             var result = await _mediator.Send(new GetAvgPassRateQuery(), cancellationToken);
             return Ok(result);
         }
-        
-         [HttpGet("Total-Attempts")]
-         [Authorize(Roles = "Admin")]
-            public async Task<ActionResult<ApiResponse<int>>> GetTotalAttempts()
-            {
-                var result = await _mediator.Send(new GetTotalAttemptsQuery());
-                return Ok(result);
-            }
+
+        [HttpGet("Total-Attempts")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ApiResponse<int>>> GetTotalAttempts()
+        {
+            var result = await _mediator.Send(new GetTotalAttemptsQuery());
+            return Ok(result);
+        }
     }
 }
