@@ -31,14 +31,7 @@ public class GetAdminDashboardStatsQueryHandler
         var totalAttemptsTask = _mediator.Send(new GetTotalAttemptsQuery(), cancellationToken);
         var avgPassRateTask = _mediator.Send(new GetAvgPassRateQuery(), cancellationToken);
 
-        await Task.WhenAll(
-            totalUsersTask,
-            activeUsersTask,
-            totalQuizzesTask,
-            totalAttemptsTask,
-            avgPassRateTask
-        );
-
+      
         var result = new AdminDashboardStatsDto
         {
             TotalUsers = (await totalUsersTask).Data,

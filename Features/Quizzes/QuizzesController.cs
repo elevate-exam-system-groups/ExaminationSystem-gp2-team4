@@ -159,5 +159,44 @@ namespace Examination_System.Features.Quizzes
 
             return Ok(result);
         }
+        [HttpPatch("{quizId:guid}/publish")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Publish(Guid quizId)
+        {
+            var result = await _mediator.Send(new PublishQuizCommand(quizId));
+
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return result.ErrorCode switch
+            {
+                ErrorCode.QuizNotFound => NotFound(result),
+
+                ErrorCode.UnprocessableEntity or ErrorCode.InvalidQuestion
+                    => UnprocessableEntity(result),
+
+                ErrorCode.Conflict => Conflict(result),
+
+                _ => StatusCode(500, result)
+            };
+        }
+        [HttpPatch("{quizId:guid}/unpublish")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Unpublish(Guid quizId)
+        {
+            var result = await _mediator.Send(new UnpublishQuizCommand(quizId));
+
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return result.ErrorCode switch
+            {
+                ErrorCode.QuizNotFound => NotFound(result),
+
+                ErrorCode.Conflict => Conflict(result),
+
+                _ => StatusCode(500, result)
+            };
+        }
     }
 }
