@@ -1,6 +1,6 @@
 ﻿namespace Examination_System.Features.Diplomas.DTOs
 {
-    public class GetAllDiplomasResponse
+    public class GetAllDiplomasDTO
     {
         public List<DiplomaResponse> Diplomas { get; set; } = [];
         public int PageNum { get; set; }
