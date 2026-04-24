@@ -28,7 +28,7 @@ namespace Examination_System.Features.Quizzes
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("GetQuizzesByDiplomaId")]
         public async Task<IActionResult> GetQuizzesByDiplomaId(
             string? diplomaId,
             int pageNum = 1,

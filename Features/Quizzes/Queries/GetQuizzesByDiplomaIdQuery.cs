@@ -43,50 +43,39 @@ namespace Examination_System.Features.Quizzes.Queries
             var quizzes =  _quizRepository.GetAll();
             if (!string.IsNullOrEmpty(request.SearchValue))
             {
-                quizzes = quizzes
-                    .AsEnumerable()
-                    .Where(d => d.Title.Contains(request.SearchValue, StringComparison.OrdinalIgnoreCase))
-                    .AsQueryable();
-                var DiplomaQuizzes = quizzes.Where(q => q.DiplomaId == DiplomaId)
-                .Skip((request.PageNum-1) * request.ItemPerPage).Take(request.ItemPerPage).ToList();
-
-                var response = new GetQuizzesResponse
-                {
-                    Quizzes = DiplomaQuizzes.Select(q => new QuizResponse
-                    {
-                        Id = q.Id,
-                        Title = q.Title,
-                        DurationMinutes = q.DurationMinutes,
-                        PassScore = q.PassScore,
-                        Status = q.Status
-                    }).ToList(),
-                    TotalCount = quizzes.Count(),
-                    ItemsPerPage=request.ItemPerPage,
-                    PageNum=request.PageNum
-                };
-                return ApiResponse<GetQuizzesResponse>.Success(response);
+                quizzes = quizzes.Where(d => d.Title.Contains(request.SearchValue));
+                    
+                var DiplomaQuizzesResponse = PaginationProcess(quizzes, DiplomaId, request.PageNum, request.ItemPerPage);
+                return ApiResponse<GetQuizzesResponse>.Success(DiplomaQuizzesResponse);
             }
             else
             {
-                var DiplomaQuizzes = quizzes.Where(q => q.DiplomaId == DiplomaId)
-                .Skip((request.PageNum-1) * request.ItemPerPage).Take(request.ItemPerPage).ToList();
-
-                var response = new GetQuizzesResponse
-                {
-                    Quizzes = DiplomaQuizzes.Select(q => new QuizResponse
-                    {
-                        Id = q.Id,
-                        Title = q.Title,
-                        DurationMinutes = q.DurationMinutes,
-                        PassScore = q.PassScore,
-                        Status = q.Status
-                    }).ToList(),
-                    TotalCount = quizzes.Count(),
-                    ItemsPerPage=request.ItemPerPage,
-                    PageNum=request.PageNum
-                };
-                return ApiResponse<GetQuizzesResponse>.Success(response);
+                var DiplomaQuizzesResponse = PaginationProcess(quizzes, DiplomaId, request.PageNum, request.ItemPerPage);   
+                return ApiResponse<GetQuizzesResponse>.Success(DiplomaQuizzesResponse);
             }           
+        }
+        private GetQuizzesResponse PaginationProcess(IQueryable<Quiz> quizzes,Guid DiplomaId, int pageNum, int itemPerPage)
+        {
+            var DiplomaQuizzes = quizzes.Where(q => q.DiplomaId == DiplomaId)
+                .Skip((pageNum-1) * itemPerPage).Take(itemPerPage);
+
+            var response = new GetQuizzesResponse
+            {
+                Quizzes = DiplomaQuizzes.Select(q => new QuizResponse
+                {
+                    Id = q.Id,
+                    QuestionsCount  =q.Questions.Count(),
+                    MaxAttempts=q.Attempts.Count(),
+                    Title = q.Title,
+                    DurationMinutes = q.DurationMinutes,
+                    PassScore = q.PassScore,
+                    Status = q.Status
+                }).ToList(),
+                TotalCount = quizzes.Count(),
+                ItemsPerPage=itemPerPage,
+                PageNum=pageNum
+            };
+            return response;
         }
     }
 }
