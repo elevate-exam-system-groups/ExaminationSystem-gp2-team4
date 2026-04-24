@@ -1,9 +1,14 @@
 ﻿using Examination_System.Common.Models;
 using Examination_System.Common.Repositories;
 using Examination_System.Common.Wrappers;
+using Examination_System.Features.Answers.Queries;
 using Examination_System.Features.Attempts.DTOs;
+using Examination_System.Features.QuestionOptions.Queries;
 using ExaminationSystem.API.Common.Models;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Formats.Asn1;
+using System.Net.NetworkInformation;
 
 namespace Examination_System.Features.Attempts.Queries
 {
@@ -13,81 +18,67 @@ namespace Examination_System.Features.Attempts.Queries
     public class GetAttemptTimerQueryHandler : IRequestHandler<GetAttemptTimerQuery, ApiResponse<GetAttemptTimerResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMediator _mediator;
         // private readonly ICurrentUserService _currentUserService;
 
-        public GetAttemptTimerQueryHandler(IUnitOfWork unitOfWork)
+        public GetAttemptTimerQueryHandler(IUnitOfWork unitOfWork, IMediator mediator)
         {
             _unitOfWork = unitOfWork;
+            _mediator = mediator;
         }
 
         public async Task<ApiResponse<GetAttemptTimerResponse>> Handle(GetAttemptTimerQuery request, CancellationToken cancellationToken)
         {
             var attemptRepository = _unitOfWork.Repository<Attempt>();
-            var attempt = await attemptRepository.GetByIdAsync(request.AttemptId);
+
+            var attempt = await attemptRepository.GetAll()
+                .Where(x => x.Id == request.AttemptId)
+                .Select(a => new
+                {
+                    AttemptId = a.Id,
+                    Status= a.Status,
+                    StartTime = a.StartTime,
+                    DurationMinutes=a.Quiz.DurationMinutes,
+                }).FirstOrDefaultAsync();
+                
 
             if (attempt is null)
                 return ApiResponse<GetAttemptTimerResponse>.Failure(ErrorCode.AttemptNotFound);
-
-            /*
-            var currentStudentId = _currentUserService.UserId;
-            if (attempt.StudentId != currentStudentId)
-                return ApiResponse<GetAttemptTimerResponse>.Failure(ErrorCode.Forbidden);
-            */
-
+       
             if (attempt.Status == "Submitted" || attempt.Status == "TimedOut")
                 return ApiResponse<GetAttemptTimerResponse>.Failure(ErrorCode.AttemptClosed);
-
-            var quizRepository = _unitOfWork.Repository<Quiz>();
-            var quiz = await quizRepository.GetByIdAsync(attempt.QuizId);
-
-            if (quiz is null)
-                return ApiResponse<GetAttemptTimerResponse>.Failure(ErrorCode.QuizNotFound);
+   
 
             var utcNow = DateTime.UtcNow;
-            var deadline = attempt.StartTime.AddMinutes(attempt.Quiz.DurationMinutes);
+            var deadline = attempt.StartTime.AddMinutes(attempt.DurationMinutes);
 
             if (utcNow >= deadline)
             {
-                var answerRepository = _unitOfWork.Repository<Answer>();
-                var allAnswers =  answerRepository.GetAll();
-
-                var attemptAnswersData = allAnswers
-                    .Where(x => x.AttemptId == attempt.Id)
-                    .Select(x => new
-                    {
-                        x.QuestionId,
-                        x.OptionId
-                    })
-                    .ToList();
+              
+                var attemptAnswersData = await _mediator.Send(new GetAttemptAnswersQuery(attempt.AttemptId));
 
                 decimal score = 0;
 
-                if (attemptAnswersData.Count > 0)
+                if (attemptAnswersData.Count() > 0)
                 {
-                    var selectedOptionIds = attemptAnswersData
-                        .Select(x => x.OptionId)
-                        .Distinct()
-                        .ToList();
+                 
+                    var CorrectOptions = await _mediator.Send(new GetAllCorrectOptions()); 
 
-                    var optionRepository = _unitOfWork.Repository<Option>();
-                    var allOptions =  optionRepository.GetAll();
+                    var CorrectOptionsIds = CorrectOptions.Select(o => o.Id).ToList();
 
-                    var correctOptionIds = allOptions
-                        .Where(x => selectedOptionIds.Contains(x.Id) && x.IsCorrect)
-                        .Select(x => x.Id)
-                        .ToList();
 
-                    var correctAnswersCount = attemptAnswersData
-                        .Count(x => correctOptionIds.Contains(x.OptionId));
+                    var CorrectOptionsCount = attemptAnswersData
+                        .Count(x => CorrectOptionsIds.Contains(x.OptionId));
 
-                    score = correctAnswersCount;
+                    score = CorrectOptionsCount;
                 }
+                var UpdateAttempt = await attemptRepository.GetByIdAsync(attempt.AttemptId);
 
-                attempt.Status = "TimedOut";
-                attempt.SubmittedAt = utcNow;
-                attempt.Score = (int)score;
+                UpdateAttempt.Status = "TimedOut";
+                UpdateAttempt.SubmittedAt = utcNow;
+                UpdateAttempt.Score = (int)score;
 
-                attemptRepository.Update(attempt);
+                attemptRepository.Update(UpdateAttempt);
                 await _unitOfWork.SaveChangesAsync();
 
                 return ApiResponse<GetAttemptTimerResponse>.Failure(ErrorCode.AttemptExpired);
