@@ -7,10 +7,10 @@ namespace Examination_System.Common.Repositories
     {
         Task AddAsync(PasswordResetToken token, CancellationToken ct);
 
-        Task<PasswordResetToken?> GetActiveTokensByUserIdAsync(Guid userId, CancellationToken ct);
+        Task<PasswordResetToken?> GetActiveTokenByUserIdAsync(Guid userId, CancellationToken ct);
 
         Task UpdateAsync(PasswordResetToken token, CancellationToken ct);
-        //Task<PasswordResetToken?> GetByTokenHashAsync(string tokenHash, CancellationToken ct);
+       
 
     }
 

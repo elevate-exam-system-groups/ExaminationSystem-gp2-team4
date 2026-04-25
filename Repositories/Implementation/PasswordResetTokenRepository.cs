@@ -14,7 +14,9 @@ namespace Examination_System.Infrastructure.Repositories
             await context.SaveChangesAsync(ct);
         }
 
-        public async Task<PasswordResetToken?>GetActiveTokenByUserIdAsync(Guid userId, CancellationToken ct)
+        public async Task<PasswordResetToken?> GetActiveTokenByUserIdAsync(
+           Guid userId,
+           CancellationToken ct)
         {
             return await context.PasswordResetTokens
                 .FirstOrDefaultAsync(x =>
@@ -22,16 +24,6 @@ namespace Examination_System.Infrastructure.Repositories
                     !x.IsUsed &&
                     x.ExpiresAt > DateTime.UtcNow,
                     ct);
-        }
-
-        public Task<PasswordResetToken?> GetActiveTokensByUserIdAsync(Guid userId, CancellationToken ct)
-        {
-            return  context.PasswordResetTokens
-               .FirstOrDefaultAsync(x =>
-                   x.UserId == userId &&
-                   !x.IsUsed &&
-                   x.ExpiresAt > DateTime.UtcNow,
-                   ct);
         }
         public async Task<PasswordResetToken?> GetByTokenHashAsync(string tokenHash, CancellationToken ct)
         {
