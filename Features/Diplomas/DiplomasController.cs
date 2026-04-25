@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Examination_System.Features.Diplomas
 {
-    //[Authorize(Roles = "Student")]
+    [Authorize(Roles = "Student")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class DiplomasController : ControllerBase

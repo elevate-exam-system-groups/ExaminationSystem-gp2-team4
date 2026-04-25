@@ -14,7 +14,7 @@ namespace Examination_System.Features.Auth.Commands.ResendOtp
     {
         public async Task<ApiResponse<string>> Handle(ResendOtpCommand request, CancellationToken cancellationToken)
         {
-            // 1. Normalize input
+            //  Normalize input
             var email = request.email?.Trim().ToLower();
 
             if (string.IsNullOrWhiteSpace(email))
@@ -22,7 +22,7 @@ namespace Examination_System.Features.Auth.Commands.ResendOtp
                 return ApiResponse<string>.Failure(ErrorCode.InvalidCredentials);
             }
 
-            // 2. Find user
+            //  Find user
             var user = await userManager.FindByEmailAsync(email);
 
             if (user == null)
@@ -30,19 +30,19 @@ namespace Examination_System.Features.Auth.Commands.ResendOtp
                 return ApiResponse<string>.Failure(ErrorCode.UserNotFound);
             }
 
-            // 3. Email must exist 
+            //  Email must exist 
             if (string.IsNullOrWhiteSpace(user.Email))
             {
                 return ApiResponse<string>.Failure(ErrorCode.InvalidCredentials);
             }
 
-            // 4. Already verified
+            //  Already verified
             if (user.EmailConfirmed)
             {
                 return ApiResponse<string>.Failure(ErrorCode.EmailAlreadyExists);
             }
 
-            // 5. Rate limit
+            // Rate limit
             var canResend = await otpService.CanResendOtpAsync(email);
 
             if (!canResend)
@@ -50,13 +50,13 @@ namespace Examination_System.Features.Auth.Commands.ResendOtp
                 return ApiResponse<string>.Failure(ErrorCode.TooManyOtpRequests);
             }
 
-            // 6. Generate OTP
+            //  Generate OTP
             var otp = await otpService.GenerateOtp();
 
-            // 7. Save OTP
+            //  Save OTP
             await otpService.SaveOtpAsync(email, otp);
 
-            // 8. Send email (SAFE NOW)
+            //  Send email 
             await emailService.SendEmailAsync(
                 user.Email,
                 "Your OTP Code",
