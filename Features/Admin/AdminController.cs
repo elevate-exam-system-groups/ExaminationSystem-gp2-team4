@@ -21,4 +21,18 @@ public class AdminController : ControllerBase
         var result = await _mediator.Send(new GetAdminDashboardStatsQuery());
         return Ok(result);
     }
+    [HttpGet("attempts")]
+    public async Task<IActionResult> GetAllAttempts([FromQuery] int pageNum = 1, [FromQuery] int itemsPerPage = 20, [FromQuery] Guid? quizId = null, [FromQuery] Guid? studentId = null)
+    {
+        var result = await _mediator.Send(new GetAllAttemptsQuery(pageNum, itemsPerPage, quizId, studentId));
+        return Ok(result);
+    }
+
+    [HttpGet("attempt/{attemptId}")]
+    public async Task<IActionResult> GetAttemptDetailById([FromRoute]Guid attemptId)
+    {
+        var result = await _mediator.Send(new GetAttemptDetailById(attemptId));
+        return Ok(result);
+    }
+
 }
