@@ -36,7 +36,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Answers\Commands\" />
       <Folder Include="Features\Auth\DTOs\" />
       <Folder Include="Features\QuestionOptions\Commands\" />
       <Folder Include="Features\QuestionOptions\DTOs\" />
