@@ -1,8 +1,6 @@
-using ExaminationSystem.API.Common.Models;
-
-namespace Examination_System.Common.Models
+﻿namespace Examination_System.Features.Admin.DTOs
 {
-    public class Attempt : BaseEntity
+    public class AttemptDetailDTO
     {
         public Guid UserId { get; set; }
         public Guid QuizId { get; set; }
@@ -11,9 +9,8 @@ namespace Examination_System.Common.Models
         public DateTime? SubmittedAt { get; set; }
         public int TotalQuestions { get; set; }
         public int Score { get; set; }
-        public bool IsPassed { get; set; } 
-        public ICollection<Answer> Answers { get; set; } = new List<Answer>();
-        public virtual Quiz? Quiz { get; set; }
-        public ApplicationUser? User { get; set; }
+        public bool IsPassed { get; set; }
+
+        public List<AttemptQuestionDataDTO> QuestionsData { get; set; } = new List<AttemptQuestionDataDTO>();
     }
 }
