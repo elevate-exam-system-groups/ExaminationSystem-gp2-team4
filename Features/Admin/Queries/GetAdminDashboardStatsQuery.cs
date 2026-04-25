@@ -1,5 +1,5 @@
 ﻿using Examination_System.Common.Wrappers;
-using Examination_System.Features.Admin.AdminResponse;
+using Examination_System.Features.Admin.DTOs;
 using Examination_System.Features.Admin.Queries.GetActiveUsersToday;
 using Examination_System.Features.Attempts.Queries;
 using Examination_System.Features.Auth.Queries;

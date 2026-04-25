@@ -1,4 +1,4 @@
-﻿namespace Examination_System.Features.Admin.AdminResponse;
+﻿namespace Examination_System.Features.Admin.DTOs;
 
 public class  AdminDashboardStatsDto
 {
