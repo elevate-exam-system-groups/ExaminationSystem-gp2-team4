@@ -17,14 +17,14 @@ namespace Examination_System.Features.Auth.Commands.VerifyAccount
     {
         public async Task<ApiResponse<string>> Handle(VerifyAccountCommand request, CancellationToken ct)
         {
-            // 1. Validation
+            //  Validation
             if (string.IsNullOrWhiteSpace(request.Email) ||
                 string.IsNullOrWhiteSpace(request.Otp))
             {
                 return ApiResponse<string>.Failure(ErrorCode.InvalidOtp);
             }
 
-            // 2. Get user
+            //  Get user
             var user = await userManager.FindByEmailAsync(request.Email);
 
             if (user == null)
@@ -32,13 +32,13 @@ namespace Examination_System.Features.Auth.Commands.VerifyAccount
                 return ApiResponse<string>.Failure(ErrorCode.UserNotFound);
             }
 
-            // 3. Already verified
+            //  Already verified
             if (user.EmailConfirmed)
             {
                 return ApiResponse<string>.Failure(ErrorCode.EmailAlreadyExists);
             }
 
-            // 4. Verify OTP
+            //  Verify OTP
             var otpResult = await otpService.VerifyOtpAsync(request.Email, request.Otp);
 
             switch (otpResult)
@@ -53,7 +53,7 @@ namespace Examination_System.Features.Auth.Commands.VerifyAccount
                     return ApiResponse<string>.Failure(ErrorCode.InvalidOtp);
             }
 
-            // 5. Confirm email
+            //  Confirm email
             user.EmailConfirmed = true;
 
             var updateResult = await userManager.UpdateAsync(user);
@@ -63,7 +63,7 @@ namespace Examination_System.Features.Auth.Commands.VerifyAccount
                 return ApiResponse<string>.Failure(ErrorCode.InternalServerError);
             }
 
-            // 6. Activate student
+            //  Activate student
             var student = await studentRepo.GetByUserIdAsync(user.Id, ct);
 
             if (student == null)
@@ -74,7 +74,7 @@ namespace Examination_System.Features.Auth.Commands.VerifyAccount
             student.Status = AccountStatus.Active;
             await studentRepo.UpdateAsync(student, ct);
 
-            // 7. Invalidate OTP
+            //  Invalidate OTP
             await otpService.InvalidateOtpAsync(request.Email);
 
             return ApiResponse<string>.Success("Account verified successfully.");

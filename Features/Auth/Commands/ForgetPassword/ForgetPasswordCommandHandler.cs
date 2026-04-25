@@ -16,13 +16,13 @@ namespace Examination_System.Features.Auth.Commands.ForgetPassword
     {
         public async Task<ApiResponse<string>> Handle(ForgotPasswordCommand request, CancellationToken ct)
         {
-            // 1. Validate input
+            //  Validate input
             if (string.IsNullOrWhiteSpace(request.Email))
             {
                 return ApiResponse<string>.Failure(ErrorCode.ValidationError);
             }
 
-            // 2. Find user
+            //  Find user
             var user = await userManager.FindByEmailAsync(request.Email);
 
               if (user == null)
@@ -32,8 +32,8 @@ namespace Examination_System.Features.Auth.Commands.ForgetPassword
                 );
             }
 
-            // 3. OPTIONAL (Best Practice): invalidate old tokens
-            var oldToken = await tokenRepo.GetActiveTokensByUserIdAsync(user.Id, ct);
+            //   invalidate old tokens
+            var oldToken = await tokenRepo.GetActiveTokenByUserIdAsync(user.Id, ct);
 
             if (oldToken != null)
             {
@@ -41,13 +41,13 @@ namespace Examination_System.Features.Auth.Commands.ForgetPassword
                 await tokenRepo.UpdateAsync(oldToken, ct);
             }
 
-            // 4. Generate secure raw token
+            //  Generate secure raw token
             var rawToken = Guid.NewGuid().ToString("N");
 
-            // 5. Hash token before storing
+            //  Hash token before storing
             var tokenHash = BCrypt.Net.BCrypt.HashPassword(rawToken);
 
-            // 6. Store token
+            //  Store token
             await tokenRepo.AddAsync(new PasswordResetToken
             {
                 UserId = user.Id,
@@ -56,11 +56,11 @@ namespace Examination_System.Features.Auth.Commands.ForgetPassword
                 IsUsed = false
             }, ct);
 
-            // 7. Build frontend reset link
+            //  Build frontend reset link
             var resetLink =
                 $"https://localhost:7124/reset-password?token={rawToken}&email={user.Email}";
 
-            // 8. Send email
+            // Send email
             await emailService.SendEmailAsync(
                 user.Email,
                 "Reset Password Request",

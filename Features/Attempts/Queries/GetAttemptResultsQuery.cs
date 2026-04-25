@@ -23,7 +23,7 @@ public class GetAttemptResultsQueryHandler(
         GetAttemptResultsQuery request,
         CancellationToken ct)
     {
-        // 1. Get current user
+        //  Get current user
         var email = httpContextAccessor.HttpContext?.User
             .FindFirstValue(ClaimTypes.Email);
 
@@ -37,7 +37,7 @@ public class GetAttemptResultsQueryHandler(
         var roles = await userManager.GetRolesAsync(currentUser);
         var isAdmin = roles.Contains("Admin");
 
-        // 2. Get attempt with needed data
+        //  Get attempt with needed data
         var attempt = await unitOfWork.Repository<Attempt>()
             .Find(a => a.Id == request.AttemptId)
             .Include(a => a.Answers)
@@ -49,16 +49,16 @@ public class GetAttemptResultsQueryHandler(
         if (attempt is null)
             return ApiResponse<AttemptResultsResponse>.Failure(ErrorCode.NotFound);
 
-        // 3. Authorization
+        //  Authorization
         var isOwner = attempt.UserId == currentUser.Id;
         if (!isOwner && !isAdmin)
             return ApiResponse<AttemptResultsResponse>.Failure(ErrorCode.Forbidden);
 
-        // 4. Status validation
+        // Status validation
         if (attempt.Status == "in_progress")
             return ApiResponse<AttemptResultsResponse>.Failure(ErrorCode.Forbidden);
 
-        // 5. Get correct options
+        // Get correct options
         var questionIds = attempt.Answers.Select(a => a.QuestionId).ToList();
 
         var correctOptions = await unitOfWork.Repository<Option>()
@@ -67,7 +67,7 @@ public class GetAttemptResultsQueryHandler(
 
         var correctOptionMap = correctOptions.ToDictionary(o => o.QuestionId, o => o);
 
-        // 6. Mapping
+        //  Mapping
         var perQuestion = attempt.Answers.Select(a =>
         {
             correctOptionMap.TryGetValue(a.QuestionId, out var correctOption);
@@ -75,7 +75,7 @@ public class GetAttemptResultsQueryHandler(
             return new PerQuestionDto
             {
                 QuestionId = a.QuestionId,
-                StudentAnswer = a.Option?.Body,          // إجابة الطالب
+                StudentAnswer = a.Option?.Body,          
                 CorrectAnswer = correctOption?.Body,
                 IsCorrect = a.IsCorrect,
                 Explanation = a.Question.Explanation

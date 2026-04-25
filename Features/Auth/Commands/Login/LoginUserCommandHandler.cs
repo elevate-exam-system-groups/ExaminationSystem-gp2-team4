@@ -17,14 +17,14 @@ namespace Examination_System.Features.Auth.Commands.Login
     {
         public async Task<ApiResponse<LoginResponse>> Handle(LoginUserCommand request, CancellationToken ct)
         {
-            // 1. Validate input
+            // Validate input
             if (string.IsNullOrWhiteSpace(request.email) ||
                 string.IsNullOrWhiteSpace(request.password))
             {
                 return ApiResponse<LoginResponse>.Failure(ErrorCode.InvalidCredentials);
             }
 
-            // 2. Normalize email 
+            // Normalize email 
             var normalizedEmail = request.email?.Trim().ToUpperInvariant();
 
             var user = await userManager.Users
@@ -35,19 +35,19 @@ namespace Examination_System.Features.Auth.Commands.Login
                 return ApiResponse<LoginResponse>.Failure(ErrorCode.InvalidCredentials);
             }
 
-            // 4. Email confirmation check
+            //  Email confirmation check
             if (!user.EmailConfirmed)
             {
                 return ApiResponse<LoginResponse>.Failure(ErrorCode.EmailNotConfirmed);
             }
 
-            // 5. Lockout check
+            // Lockout check
             if (await userManager.IsLockedOutAsync(user))
             {
                 return ApiResponse<LoginResponse>.Failure(ErrorCode.AccountLocked);
             }
 
-            // 6. Password check
+            //  Password check
             var passwordValid = await userManager.CheckPasswordAsync(user, request.password);
 
             if (!passwordValid)
@@ -62,15 +62,15 @@ namespace Examination_System.Features.Auth.Commands.Login
                 return ApiResponse<LoginResponse>.Failure(ErrorCode.InvalidCredentials);
             }
 
-            // 7. Reset failed count
+            // Reset failed count
             await userManager.ResetAccessFailedCountAsync(user);
 
-            // 8. Roles
+            //  Roles
             var roles = await userManager.GetRolesAsync(user);
             var role = roles.FirstOrDefault() ?? "Unknown";
             var isStudent = roles.Contains("Student");
 
-            // 9. Student checks
+            //  Student checks
             if (isStudent)
             {
                 var student = await studentRepo.GetByUserIdAsync(user.Id, ct);
@@ -87,14 +87,14 @@ namespace Examination_System.Features.Auth.Commands.Login
                     return ApiResponse<LoginResponse>.Failure(ErrorCode.Forbidden);
             }
 
-            // 10. Generate tokens
+            //  Generate tokens
             var accessToken = jwtService.GenerateToken(user, roles);
             var refreshToken = jwtService.GenerateRefreshToken(user);
             
             user.LastLoginAt = DateTime.UtcNow;
             await userManager.UpdateAsync(user);
 
-            // 11. Response
+            //  Response
             return ApiResponse<LoginResponse>.Success(
                 new LoginResponse(
                     Token: accessToken,

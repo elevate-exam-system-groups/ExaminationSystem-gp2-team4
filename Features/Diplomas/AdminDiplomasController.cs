@@ -1,13 +1,15 @@
+using Examination_System.Features.Diplomas.Commands;
+using Examination_System.Features.Diplomas.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Examination_System.Features.Diplomas.Commands;
-using Examination_System.Features.Diplomas.DTOs;
 
 namespace Examination_System.Features.Diplomas
 {
     [ApiController]
+    [Authorize(Roles = "Admin")]
     [Route("api/admin/diplomas")]
     public class AdminDiplomasController : ControllerBase
     {

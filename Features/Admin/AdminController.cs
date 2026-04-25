@@ -4,6 +4,7 @@ using Examination_System.Features.Admin.Queries;
 using MediatR;
 
 [ApiController]
+[Authorize(Roles = "Admin")]
 [Route("api/admin")]
 public class AdminController : ControllerBase
 {
@@ -15,7 +16,6 @@ public class AdminController : ControllerBase
     }
 
     [HttpGet("stats")]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetDashboardStats()
     {
         var result = await _mediator.Send(new GetAdminDashboardStatsQuery());

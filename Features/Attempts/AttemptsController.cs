@@ -28,7 +28,7 @@ namespace Examination_System.Features.Attempts
         {
             _mediator = mediator;
         }
-
+        [Authorize(Roles = "Student")]
         [HttpPost("{id}/submit")]
         public async Task<IActionResult> SubmitAttempt(Guid id)
         {
@@ -68,6 +68,7 @@ namespace Examination_System.Features.Attempts
             return Ok(result.Data);
         }
 
+        [Authorize(Roles = "Student")]
         [HttpPost("start")]
         public async Task<IActionResult> StartAttempt([FromBody] StartAttemptCommand command)
         {
@@ -87,6 +88,7 @@ namespace Examination_System.Features.Attempts
             return Ok(result.Data);
         }
 
+        [Authorize(Roles = "Student")]
         [HttpGet("timer")]
         public async Task<IActionResult> GetTimer([FromQuery] Guid attemptId)
         {
@@ -107,6 +109,7 @@ namespace Examination_System.Features.Attempts
             return Ok(result.Data);
         }
 
+        [Authorize(Roles = "Student")]
         [HttpPost("answer")]
         public async Task<IActionResult> SaveAnswer([FromQuery] Guid attemptId, [FromQuery] Guid questionId,
             [FromQuery] Guid selectedOptionId)
@@ -130,8 +133,9 @@ namespace Examination_System.Features.Attempts
             return Ok(result.Data);
         }
 
-        [HttpGet("{Id:guid}/results")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
+        [HttpGet("{attemptId:guid}/results")]
+       
         public async Task<IActionResult> GetAttemptResults(Guid attemptId, CancellationToken ct)
         {
             var result = await _mediator.Send(new GetAttemptResultsQuery(attemptId), ct);

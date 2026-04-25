@@ -14,7 +14,7 @@ namespace Examination_System.Features.Auth.Commands.ResetPassword
     {
         public async Task<ApiResponse<string>> Handle(ResetPasswordCommand request, CancellationToken ct)
         {
-            // 1. Find user
+            //  Find user
             var user = await userManager.FindByEmailAsync(request.Email);
 
             if (user == null)
@@ -23,8 +23,8 @@ namespace Examination_System.Features.Auth.Commands.ResetPassword
                     
                 );
 
-            // 2. Find token (better: deterministic lookup)
-            var token = await tokenRepo.GetActiveTokensByUserIdAsync(user.Id, ct);
+            //  Find token 
+            var token = await tokenRepo.GetActiveTokenByUserIdAsync(user.Id, ct);
 
             if (token == null)
                 return ApiResponse<string>.Failure(
@@ -32,7 +32,7 @@ namespace Examination_System.Features.Auth.Commands.ResetPassword
                     
                 );
 
-            // 3. Validate token ownership + expiry + usage
+            // Validate token ownership + expiry + usage
             if (token.UserId != user.Id ||
                 token.IsUsed ||
                 token.ExpiresAt < DateTime.UtcNow)
@@ -43,7 +43,7 @@ namespace Examination_System.Features.Auth.Commands.ResetPassword
                 );
             }
 
-            // 4. Verify token securely
+            //  Verify token securely
             var isValid = BCrypt.Net.BCrypt.Verify(request.Token, token.TokenHash);
 
             if (!isValid)
@@ -52,7 +52,7 @@ namespace Examination_System.Features.Auth.Commands.ResetPassword
                    
                 );
 
-            // 5. Reset password 
+            //  Reset password 
             user.PasswordHash = userManager.PasswordHasher.HashPassword(user, request.NewPassword);
 
             var updateResult = await userManager.UpdateAsync(user);
@@ -60,7 +60,7 @@ namespace Examination_System.Features.Auth.Commands.ResetPassword
             if (!updateResult.Succeeded)
                 return ApiResponse<string>.Failure(ErrorCode.OperationFailed);
 
-            // 6. Invalidate token (single use)
+            //  Invalidate token 
             token.IsUsed = true;
             await tokenRepo.UpdateAsync(token, ct);
 
