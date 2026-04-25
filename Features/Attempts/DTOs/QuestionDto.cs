@@ -9,5 +9,6 @@ namespace Examination_System.Features.Attempts.DTOs
         public string Body { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
         public List<OptionDto> Options { get; set; } = new();
+        public Guid QuizId { get; set; }
     }
 }
