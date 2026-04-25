@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Examination_System.Features.Attempts.Queries.GetAttemptResults;
 using Microsoft.AspNetCore.Authorization;
+using Examination_System.Features.Attempts.Orchestrators;
 
 namespace Examination_System.Features.Attempts
 {
@@ -110,7 +111,7 @@ namespace Examination_System.Features.Attempts
         public async Task<IActionResult> SaveAnswer([FromQuery] Guid attemptId, [FromQuery] Guid questionId,
             [FromQuery] Guid selectedOptionId)
         {
-            var result = await _mediator.Send(new SaveAnswerCommand(attemptId, questionId, selectedOptionId));
+            var result = await _mediator.Send(new SaveAnswerOrchestrator(attemptId, questionId, selectedOptionId));
 
             if (!result.IsSuccess)
             {
