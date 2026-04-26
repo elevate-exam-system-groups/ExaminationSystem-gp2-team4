@@ -71,6 +71,9 @@ namespace Examination_System.Common.Extensions.DependencyInjection
 
                 options.AddPolicy("TakeExam",
                     policy => policy.RequireRole("Student"));
+
+                options.AddPolicy("StudentOnly",
+                    policy => policy.RequireRole("Student"));
             });
 
             // ================= MediatR =================
