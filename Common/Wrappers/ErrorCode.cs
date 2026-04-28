@@ -32,9 +32,12 @@ namespace Examination_System.Common.Wrappers
 
         //Question
         InvalidQuestion = 501,
+        OptionsLessThanTwo = 502,
+        ThereIsNoCorrectOption = 503,
+        QuestionNotFound = 504,
 
-            //Auth
-            InvalidCredentials = 601,
+        //Auth
+        InvalidCredentials = 601,
             UserNotFound = 602,
             EmailAlreadyExists = 603,
             UsernameAlreadyExists = 604,

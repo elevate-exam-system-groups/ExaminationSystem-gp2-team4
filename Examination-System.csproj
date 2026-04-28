@@ -37,7 +37,6 @@
 
     <ItemGroup>
       <Folder Include="Features\Auth\DTOs\" />
-      <Folder Include="Features\QuestionOptions\Commands\" />
       <Folder Include="Features\QuestionOptions\DTOs\" />
     </ItemGroup>
 
